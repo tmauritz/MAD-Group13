@@ -3,7 +3,6 @@ package com.example.mad_group13
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,20 +18,18 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.mad_group13.navigation.Navigation
 import com.example.mad_group13.ui.theme.MADGroup13Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge() //TODO: figure out if we want this or not
         setContent {
             MADGroup13Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Navigation()
-                    innerPadding
+                    Navigation(Modifier.padding(innerPadding))
                 }
             }
         }
@@ -41,25 +38,27 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(
+    onShowCurrentPetStats: () -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     Scaffold(
-        /*topBar = {
+        topBar = {
             TopAppBar(
                 title = { Text("My adorable Diamond!") }
             )
-
-        }*/
+        }
 
     ) { innerPadding ->
         Box (
-            modifier = Modifier
+            modifier = modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
         ){
             Text(
-                ":D",
-                modifier = Modifier.align(Alignment.Center)
+                "Imagine there's a pet here.",
+                modifier = modifier.align(Alignment.Center)
             )
             Column (
                 verticalArrangement = Arrangement.Center,
@@ -68,7 +67,7 @@ fun MainScreen(navController: NavHostController) {
                 Row (
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = modifier.fillMaxWidth()
                 ){
                     Button(
                         onClick = { print("I hath been clicked") }
@@ -90,22 +89,22 @@ fun MainScreen(navController: NavHostController) {
                 Row (
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.Bottom,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = modifier.fillMaxSize()
                 ){
                     Button(
                         onClick = { print("I hath been clicked") }
                     ) {
-                        Text("We")
+                        Text("Moar")
                     }
                     Button(
                         onClick = { print("Shocking.") }
                     ) {
-                        Text("are")
+                        Text("Buttons!")
                     }
                     Button(
-                        onClick = { print("Oh, please.") }
+                        onClick = onShowCurrentPetStats
                     ) {
-                        Text("more buttons")
+                        Text("Stats")
                     }
                 }
             }
@@ -114,4 +113,12 @@ fun MainScreen(navController: NavHostController) {
 
     }
 
+}
+
+@Preview(name = "MainScreenPreview")
+@Composable
+fun MainScreenPreview(){
+    MainScreen(
+        onShowCurrentPetStats = {}
+    )
 }
