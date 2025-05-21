@@ -1,7 +1,6 @@
 package com.example.mad_group13.presentation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,26 +14,43 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
-import com.example.mad_group13.logic.PetActions
+import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    petStateViewModel: PetStateViewModel = hiltViewModel()
 ) {
 
+    val activePet by petStateViewModel.petState.collectAsState()
+
+    DisposableEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.addObserver(petStateViewModel)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(petStateViewModel)
+        }
+
+    }
+
+    //TODO: these don't belong here i guess?
     var showNicknameDialog by remember { mutableStateOf(false) }
     var isFeeding by remember { mutableStateOf(false) }
 
@@ -62,9 +78,9 @@ fun MainScreen(
                     modifier = modifier.fillMaxWidth()
                 ){
                     Button(
-                        onClick = { print("I hath been clicked") }
+                        onClick = { petStateViewModel.feedPet() }
                     ) {
-                        Text("Button!")
+                        Text("FEED")
                     }
                     Button(
                         onClick = { print("Shocking.") }
@@ -80,7 +96,7 @@ fun MainScreen(
                     }
                 }
 
-                Text(text = "NICKNAME GOES HERE",
+                Text(text = activePet.nickname,
                 modifier = modifier.padding(top = 10.dp))
 
                 Row {
@@ -88,16 +104,16 @@ fun MainScreen(
                     painter = painterResource(id = R.drawable.dia_1_purple),
                     contentDescription = "A pretty diamond!",
                     modifier = modifier
-                )
+                    )
                 }
 
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = modifier.fillMaxWidth()){
-                    StatDisplay("Health", 1f)
-                    StatDisplay("Hunger", 1f)
-                    StatDisplay("Happiness", 1f)
-                    StatDisplay("Activity", 1f)
+                    StatDisplay("Health", activePet.health)
+                    StatDisplay("Hunger", activePet.hunger)
+                    StatDisplay("Happiness", activePet.happiness)
+                    StatDisplay("Activity", activePet.activity)
                 }
 
                 Row (
@@ -106,14 +122,13 @@ fun MainScreen(
                     modifier = modifier.fillMaxSize()
                 ){
                     Button(
-                        onClick = { print("I hath been clicked") }
+                        onClick = { petStateViewModel.updatePetState(waitForTimeInterval = false) }
                     ) {
                         Text("Pass Time")
                     }
                     Button(
                         onClick = {
-                            // TODO: later implement state-management
-                            PetActions.feedPet() }
+                            petStateViewModel.feedPet() }
                     ) {
                         Text("Feed")
                     }
@@ -123,7 +138,7 @@ fun MainScreen(
                 NicknameDialog(
                     onDismiss = { showNicknameDialog = false },
                     onConfirm = { newName ->
-                        PetActions.changePetNickname(newName)
+                        petStateViewModel.changePetNickname(newName)
                         showNicknameDialog = false
                     }
                 )

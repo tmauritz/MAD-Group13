@@ -1,0 +1,18 @@
+package com.example.mad_group13.data
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class Pet(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val nickname: String = "My Adorable Diamond",
+    val maturity: PetMaturity = PetMaturity.BABY,
+    val age: Float = 0f,
+    val health: Float = 1f,
+    val happiness: Float = .5f,
+    val hunger: Float = .2f,
+    val activity: Float = .5f,
+    val lastChecked: Long = System.currentTimeMillis()
+)
