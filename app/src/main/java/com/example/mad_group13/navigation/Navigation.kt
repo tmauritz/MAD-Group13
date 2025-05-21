@@ -28,7 +28,6 @@ fun Navigation(modifier: Modifier = Modifier) {
         }
         composable(route = Screen.MainScreen.route) {
             MainScreen(
-                onShowCurrentPetStats = { navController.navigate(Screen.ActivePetStats.route)},
                 modifier = modifier
             )
         }

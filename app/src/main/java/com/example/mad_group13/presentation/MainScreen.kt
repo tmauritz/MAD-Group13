@@ -1,6 +1,7 @@
 package com.example.mad_group13.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,14 +22,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.mad_group13.R
 import com.example.mad_group13.logic.PetActions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onShowCurrentPetStats: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -48,11 +51,7 @@ fun MainScreen(
                 .padding(innerPadding)
                 .fillMaxSize(),
         ){
-            Image(
-                painter = painterResource(id = R.drawable.dia_1_purple),
-                contentDescription = "A pretty diamond!",
-                modifier = modifier.align(Alignment.Center)
-            )
+
             Column (
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -81,6 +80,26 @@ fun MainScreen(
                     }
                 }
 
+                Text(text = "NICKNAME GOES HERE",
+                modifier = modifier.padding(top = 10.dp))
+
+                Row {
+                    Image(
+                    painter = painterResource(id = R.drawable.dia_1_purple),
+                    contentDescription = "A pretty diamond!",
+                    modifier = modifier
+                )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = modifier.fillMaxWidth()){
+                    StatDisplay("Health", 1f)
+                    StatDisplay("Hunger", 1f)
+                    StatDisplay("Happiness", 1f)
+                    StatDisplay("Activity", 1f)
+                }
+
                 Row (
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.Bottom,
@@ -89,7 +108,7 @@ fun MainScreen(
                     Button(
                         onClick = { print("I hath been clicked") }
                     ) {
-                        Text("Moar")
+                        Text("Pass Time")
                     }
                     Button(
                         onClick = {
@@ -97,11 +116,6 @@ fun MainScreen(
                             PetActions.feedPet() }
                     ) {
                         Text("Feed")
-                    }
-                    Button(
-                        onClick = onShowCurrentPetStats
-                    ) {
-                        Text("Stats")
                     }
                 }
             }
@@ -126,4 +140,11 @@ fun MainScreen(
 
     }
 
+}
+
+
+@Preview(name = "MainScreenPreview")
+@Composable
+fun MainScreenPreview(){
+    MainScreen()
 }

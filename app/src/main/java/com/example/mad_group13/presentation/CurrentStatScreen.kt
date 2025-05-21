@@ -1,4 +1,5 @@
 package com.example.mad_group13.presentation
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,9 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,6 +20,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -47,9 +49,10 @@ fun CurrentStatScreen(onBackToMain: ()-> Unit, modifier: Modifier = Modifier){
         )},
         modifier = modifier){ padding ->
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = modifier.padding(padding)){
-            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+            LazyRow() {
                 items(placeholders) { (name, value) -> StatDisplay(name, value) }
             }
         }
@@ -60,15 +63,14 @@ fun CurrentStatScreen(onBackToMain: ()-> Unit, modifier: Modifier = Modifier){
 fun StatDisplay(statName: String, statValue: Float, modifier: Modifier = Modifier){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier.fillMaxWidth().aspectRatio(1f).padding(2.dp)
+        modifier = modifier.padding(2.dp)
     ){
         Text(
             text = statName,
             modifier = modifier.padding(2.dp)
             )
         Box(contentAlignment = Alignment.Center,
-            modifier = modifier.size(70.dp)
+            modifier = modifier.size(50.dp)
             ){
             CircularProgressIndicator(
                 progress = { statValue },
