@@ -14,6 +14,7 @@ import com.example.mad_group13.presentation.MainScreen
 @Composable
 fun Navigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
+    val backToMainMenu: () -> Unit = { navController.popBackStack(Screen.MainScreen.route, inclusive = false, saveState = false) }
 
     NavHost(
         navController = navController,
@@ -33,7 +34,7 @@ fun Navigation(modifier: Modifier = Modifier) {
         }
         composable(route = Screen.ActivePetStats.route){
             CurrentStatScreen(
-                onBackToMain = {navController.navigate(Screen.MainScreen.route)},
+                onBackToMain = backToMainMenu,
                 modifier = modifier)
         }
     }
