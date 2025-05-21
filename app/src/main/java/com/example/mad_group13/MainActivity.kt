@@ -22,12 +22,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.mad_group13.navigation.Navigation
 import com.example.mad_group13.ui.theme.MADGroup13Theme
-import com.example.mad_group13.logic.PetActions
-import com.example.mad_group13.presentation.NicknameDialog
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,102 +42,25 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    onShowCurrentPetStats: () -> Unit,
+fun StartScreen(
+    onShowMainScreen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    var showNicknameDialog by remember { mutableStateOf(false) }
-    var isFeeding by remember { mutableStateOf(false) }
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("My adorable Diamond!") }
+    Column (
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text (
+            "My Adorable Diamond!"
+        )
+        Button(onClick = onShowMainScreen) {
+            Text (
+                "Enter"
             )
         }
-
-    ) { innerPadding ->
-        Box (
-            modifier = modifier
-                .padding(innerPadding)
-                .fillMaxSize(),
-        ){
-            Text(
-                "Imagine there's a pet here.",
-                modifier = modifier.align(Alignment.Center)
-            )
-            Column (
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row (
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = modifier.fillMaxWidth()
-                ){
-                    Button(
-                        onClick = { print("I hath been clicked") }
-                    ) {
-                        Text("Button!")
-                    }
-                    Button(
-                        onClick = { print("Shocking.") }
-                    ) {
-                        Text("Button!")
-                    }
-                    Button(
-                        onClick = {
-                            showNicknameDialog = true
-                        }
-                    ) {
-                        Text("Nickname")
-                    }
-                }
-
-                Row (
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.Bottom,
-                    modifier = modifier.fillMaxSize()
-                ){
-                    Button(
-                        onClick = { print("I hath been clicked") }
-                    ) {
-                        Text("Moar")
-                    }
-                    Button(
-                        onClick = {
-                            // TODO: later implement state-management
-                            PetActions.feedPet() }
-                    ) {
-                        Text("Feed")
-                    }
-                    Button(
-                        onClick = onShowCurrentPetStats
-                    ) {
-                        Text("Stats")
-                    }
-                }
-            }
-            if (showNicknameDialog) {
-                NicknameDialog(
-                    onDismiss = { showNicknameDialog = false },
-                    onConfirm = { newName ->
-                        PetActions.changePetNickname(newName)
-                        showNicknameDialog = false
-                    }
-                )
-            }
-            if (isFeeding) {
-                LaunchedEffect(Unit) {
-                    // TODO: changing it later with the animation or real logic
-                    kotlinx.coroutines.delay(2000)
-                    isFeeding = false
-                }
-            }
-        }
-
-
     }
 
 }
@@ -148,7 +68,5 @@ fun MainScreen(
 @Preview(name = "MainScreenPreview")
 @Composable
 fun MainScreenPreview(){
-    MainScreen(
-        onShowCurrentPetStats = {}
-    )
+    StartScreen(onShowMainScreen = {})
 }

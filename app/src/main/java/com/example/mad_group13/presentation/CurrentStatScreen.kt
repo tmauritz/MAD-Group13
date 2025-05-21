@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CurrentPetStats(onBackToMain: ()-> Unit, modifier: Modifier = Modifier){
+fun CurrentStatScreen(onBackToMain: ()-> Unit, modifier: Modifier = Modifier){
 
     val placeholders = listOf(
         "Health" to 0.9f,
@@ -86,7 +86,7 @@ fun StatDisplay(statName: String, statValue: Float, modifier: Modifier = Modifie
 @Preview(name = "ActivePetStatsPreview")
 @Composable
 fun ActivePetStatsPreview(){
-        CurrentPetStats(
+        CurrentStatScreen(
             onBackToMain = { },
             modifier = Modifier
         )

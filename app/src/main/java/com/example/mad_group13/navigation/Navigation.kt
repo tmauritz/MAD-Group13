@@ -5,9 +5,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mad_group13.StartScreen
 
-import com.example.mad_group13.MainScreen
-import com.example.mad_group13.presentation.CurrentPetStats
+
+import com.example.mad_group13.presentation.CurrentStatScreen
+import com.example.mad_group13.presentation.MainScreen
 
 @Composable
 fun Navigation(modifier: Modifier = Modifier) {
@@ -15,8 +17,14 @@ fun Navigation(modifier: Modifier = Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.MainScreen.route
+        startDestination = Screen.MainScreen.route // !!change to StartScreen later!!
     ) {
+        composable(route = Screen.StartScreen.route) {
+            StartScreen(
+                onShowMainScreen = { navController.navigate(Screen.MainScreen.route)},
+                modifier = modifier
+            )
+        }
         composable(route = Screen.MainScreen.route) {
             MainScreen(
                 onShowCurrentPetStats = { navController.navigate(Screen.ActivePetStats.route)},
@@ -24,7 +32,7 @@ fun Navigation(modifier: Modifier = Modifier) {
             )
         }
         composable(route = Screen.ActivePetStats.route){
-            CurrentPetStats(
+            CurrentStatScreen(
                 onBackToMain = {navController.navigate(Screen.MainScreen.route)},
                 modifier = modifier)
         }
