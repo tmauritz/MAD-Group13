@@ -10,6 +10,8 @@ import com.example.mad_group13.logic.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.lang.Float.min
@@ -28,6 +30,12 @@ class PetStateViewModel @Inject constructor(
             Log.i("MAD", "Pulling Pet from Storage...")
             val activePet: Pet = petRepository.getActivePet()
             _petState.update { activePet }
+            petState
+                .drop(1)
+                .distinctUntilChanged()
+                .collect{ pet ->
+                    petRepository.updatePet(pet)
+                }
             updatePetState()
         }
     }
@@ -58,7 +66,6 @@ class PetStateViewModel @Inject constructor(
             activity = max(pet.activity - .05f,0f)
             )
         }
-        viewModelScope.launch{ petRepository.updatePet(petState.value) }
     }
 
 }
