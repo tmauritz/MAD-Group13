@@ -78,9 +78,9 @@ fun MainScreen(
                     modifier = modifier.fillMaxWidth()
                 ){
                     Button(
-                        onClick = { petStateViewModel.feedPet() }
+                        onClick = { petStateViewModel.fullRestoreActivePet() }
                     ) {
-                        Text("FEED")
+                        Text("Pokecenter Heal")
                     }
                     Button(
                         onClick = { print("Shocking.") }
