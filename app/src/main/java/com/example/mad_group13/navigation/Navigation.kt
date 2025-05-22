@@ -10,6 +10,7 @@ import com.example.mad_group13.StartScreen
 
 import com.example.mad_group13.presentation.CurrentStatScreen
 import com.example.mad_group13.presentation.MainScreen
+import com.example.mad_group13.presentation.PetHistory
 
 @Composable
 fun Navigation(modifier: Modifier = Modifier) {
@@ -28,6 +29,7 @@ fun Navigation(modifier: Modifier = Modifier) {
         }
         composable(route = Screen.MainScreen.route) {
             MainScreen(
+                onNavigatePetHistory = {navController.navigate(Screen.PetHistory.route)},
                 modifier = modifier
             )
         }
@@ -35,6 +37,12 @@ fun Navigation(modifier: Modifier = Modifier) {
             CurrentStatScreen(
                 onBackToMain = backToMainMenu,
                 modifier = modifier)
+        }
+        composable(route = Screen.PetHistory.route) {
+            PetHistory(
+                onBackNavigation = backToMainMenu,
+                modifier = modifier,
+            )
         }
     }
 }

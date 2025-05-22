@@ -9,14 +9,18 @@ class PetRepository @Inject constructor(
 ){
     suspend fun getActivePet(): Pet{
         Log.i("MAD_dao","Pulling Pets")
-        val activePets: List<Pet> = petDao.getActivePets()
+        val activePets: List<Pet> = petDao.getAllPetsByIdDescending()
         Log.i("MAD_dao", "ActivePetSize: ${activePets.size}")
         return if (activePets.isEmpty()){getNewPet()}
         else activePets.first()
     }
 
+    suspend fun getPetHistory(): List<Pet>{
+        return petDao.getAllPetsByIdDescending().drop(1)
+    }
+
     suspend fun updatePet(pet: Pet) {
-        val activePets = petDao.getActivePets()
+        val activePets = petDao.getAllPetsByIdDescending()
         val existing = activePets.find { it.id == pet.id }
         if (existing != null) {
             petDao.updatePet(pet)
@@ -32,7 +36,7 @@ class PetRepository @Inject constructor(
         )
         // insert pet, then retrieve it again to get the auto-incremented index from the DB
         petDao.insertPet(newPet)
-        return petDao.getActivePets().first()
+        return petDao.getAllPetsByIdDescending().first()
     }
 
 }

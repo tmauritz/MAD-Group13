@@ -35,6 +35,7 @@ import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
+    onNavigatePetHistory: () -> Unit,
     modifier: Modifier = Modifier,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     petStateViewModel: PetStateViewModel = hiltViewModel()
@@ -47,7 +48,6 @@ fun MainScreen(
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(petStateViewModel)
         }
-
     }
 
     //TODO: these don't belong here i guess?
@@ -132,6 +132,11 @@ fun MainScreen(
                     ) {
                         Text("Feed")
                     }
+                    Button(
+                        onClick = onNavigatePetHistory
+                    ) {
+                        Text("History")
+                    }
                 }
             }
             if (showNicknameDialog) {
@@ -161,5 +166,5 @@ fun MainScreen(
 @Preview(name = "MainScreenPreview")
 @Composable
 fun MainScreenPreview(){
-    MainScreen()
+    MainScreen({})
 }

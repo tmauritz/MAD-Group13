@@ -11,7 +11,7 @@ interface PetDao {
 
     //gets the most recent pet from the database
     @Query("SELECT * FROM pet ORDER BY id DESC")
-    suspend fun getActivePets(): List<Pet>
+    suspend fun getAllPetsByIdDescending(): List<Pet>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPet(pet: Pet)
     @Update(onConflict = OnConflictStrategy.REPLACE)
