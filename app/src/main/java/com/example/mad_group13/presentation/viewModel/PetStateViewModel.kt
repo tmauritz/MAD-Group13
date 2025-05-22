@@ -12,6 +12,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,9 +33,9 @@ class PetStateViewModel @Inject constructor(
             Log.i("MAD_Pet", "Pulling Pet from Storage...")
             val activePet: Pet = petRepository.getActivePet()
             _petState.update { activePet }
-            updatePetState(waitForTimeInterval = false) //initial update of pet state
-            petState.collect{ pet ->
-                Log.i("MAD_Pet_Update","Saving Pet to DB...")
+            //updatePetState(waitForTimeInterval = false) //initial update of pet state
+            petState.distinctUntilChanged { old, new ->  old.id == new.id }.collect{ pet ->
+                Log.i("MAD_Pet_Update","Saving Pet to DB... $pet")
                 petRepository.updatePet(pet)
             }
         }
@@ -69,6 +71,14 @@ class PetStateViewModel @Inject constructor(
     fun changePetNickname(newName: String) {
         // TODO: save pet-name
         println("Pet's new nickname is: $newName") // placeholder
+    }
+
+    fun retirePetAndStartNew(){
+        viewModelScope.launch {
+            Log.i("MAD_Pet_Retirement", "Retiring Pet ${petState.value}")
+            _petState.update { petRepository.getNewPet() }
+            Log.i("MAD_Pet_Retirement", "New Pet Id ${petState.value.id}")
+        }
     }
 
     fun fullRestoreActivePet(){

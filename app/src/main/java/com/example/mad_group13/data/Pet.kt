@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Pet(
+data class Pet( //CHANGING ANYTHING HERE MEANS INCREMENTING VERSION NUMBER IN PetDB!
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val nickname: String = "My Adorable Diamond",
@@ -14,5 +14,19 @@ data class Pet(
     val happiness: Float = .5f,
     val hunger: Float = .2f,
     val activity: Float = .5f,
-    val lastChecked: Long = System.currentTimeMillis()
+    val lastChecked: Long = System.currentTimeMillis(),
 )
+
+fun getPetName(): String = listOf(
+    "Glitterpebble",
+    "Shinobrite",
+    "Crystarbo",
+    "Quartzina Turner",
+    "Rocky Balquartz",
+    "Gemothy Chalamet",
+    "Sir Sparkalot",
+    "Facetious",
+    "Shardi B",
+    "Opal Winfrey"
+).shuffled().first()
+

@@ -10,7 +10,7 @@ import androidx.room.Update
 interface PetDao {
 
     //gets the most recent pet from the database
-    @Query("SELECT * FROM pet ORDER BY id")
+    @Query("SELECT * FROM pet ORDER BY id DESC")
     suspend fun getActivePets(): List<Pet>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPet(pet: Pet)

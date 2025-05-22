@@ -83,9 +83,9 @@ fun MainScreen(
                         Text("Pokecenter Heal")
                     }
                     Button(
-                        onClick = { print("Shocking.") }
+                        onClick = { petStateViewModel.retirePetAndStartNew() }
                     ) {
-                        Text("Button!")
+                        Text("Retire(final)!")
                     }
                     Button(
                         onClick = {
