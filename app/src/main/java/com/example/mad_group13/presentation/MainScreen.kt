@@ -32,6 +32,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
+import com.example.mad_group13.presentation.viewModel.StockViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,10 +40,13 @@ fun MainScreen(
     onNavigatePetHistory: () -> Unit,
     modifier: Modifier = Modifier,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
-    petStateViewModel: PetStateViewModel = hiltViewModel()
+    petStateViewModel: PetStateViewModel = hiltViewModel(),
+    stockViewModel: StockViewModel = hiltViewModel()
 ) {
 
     val activePet by petStateViewModel.petState.collectAsState()
+    val teslaPrice by stockViewModel.teslaPrice.collectAsState()
+
 
     DisposableEffect(lifecycleOwner) {
         lifecycleOwner.lifecycle.addObserver(petStateViewModel)
@@ -58,7 +62,22 @@ fun MainScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.app_name)) }
+                title = { Text(stringResource(R.string.app_name)) },
+                actions = {
+                    Column(
+                        horizontalAlignment = Alignment.End,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(end = 12.dp)
+                    ) {
+                        Text(text = "TSLA: $teslaPrice")
+                        Button(
+                            onClick = { stockViewModel.fetchTeslaStock() },
+                            modifier = Modifier.padding(top = 4.dp)
+                        ) {
+                            Text("GET STOCKS")
+                        }
+                    }
+                }
             )
         }
 
@@ -127,12 +146,13 @@ fun MainScreen(
                     ) {
                         Text(stringResource(R.string.button_nickname))
                     }
-                    Button(
+                    // TODO: Auskommentiert, wegen Fehlermeldung bei mir (Chris)
+                    /*Button(
                         onClick = {
                             petStateViewModel.feedPet() }
                     ) {
                         Text(stringResource(R.string.button_feed))
-                    }
+                    }*/
                     Button(
                         onClick = onNavigatePetHistory
                     ) {

@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.mad_group13.model.AlarmScheduler
 import com.example.mad_group13.navigation.Navigation
 import com.example.mad_group13.ui.theme.MADGroup13Theme
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge() //TODO: figure out if we want this or not
+
+        AlarmScheduler.scheduleDailyTeslaCheck(this)
+
         setContent {
             MADGroup13Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->

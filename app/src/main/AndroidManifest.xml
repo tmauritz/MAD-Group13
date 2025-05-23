@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Internet Zugriffsberechtigung für API -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MyAdorableDiamond"
         android:allowBackup="true"
@@ -24,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 🔔 Tesla Alarm BroadcastReceiver -->
+        <receiver android:name=".TeslaAlarmReceiver" />
+
     </application>
 
 </manifest>
