@@ -31,6 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
+import com.example.mad_group13.logic.nutrition.BasicSnack
+import com.example.mad_group13.logic.nutrition.FoodSnackMenuItems
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 import com.example.mad_group13.presentation.viewModel.StockViewModel
 
@@ -64,19 +66,7 @@ fun MainScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.app_name)) },
                 actions = {
-                    Column(
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(end = 12.dp)
-                    ) {
-                        Text(text = "TSLA: $teslaPrice")
-                        Button(
-                            onClick = { stockViewModel.fetchTeslaStock() },
-                            modifier = Modifier.padding(top = 4.dp)
-                        ) {
-                            Text("GET STOCKS")
-                        }
-                    }
+                    //TODO: Menu?
                 }
             )
         }
@@ -107,10 +97,18 @@ fun MainScreen(
                     ) {
                         Text("Retire(DBG)(final)!")
                     }
-                    Button(
-                        onClick = { petStateViewModel.updatePetState(waitForTimeInterval = false) }
+                    Column(
+                        horizontalAlignment = Alignment.End,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.padding(end = 12.dp)
                     ) {
-                        Text("Pass Time(DBG)")
+                        Text(text = "TSLA: $teslaPrice")
+                        Button(
+                            onClick = { stockViewModel.fetchTeslaStock() },
+                            modifier = Modifier.padding(top = 4.dp)
+                        ) {
+                            Text("GET STOCKS")
+                        }
                     }
                 }
 
@@ -146,13 +144,18 @@ fun MainScreen(
                     ) {
                         Text(stringResource(R.string.button_nickname))
                     }
-                    // TODO: Auskommentiert, wegen Fehlermeldung bei mir (Chris)
-                    /*Button(
+                    Button(
                         onClick = {
-                            petStateViewModel.feedPet() }
+                            //TODO: display an item menu with food, limited quantities etc.
+                            val debugSnack = BasicSnack(
+                                name = "Sugar Cube",
+                                nutritionValue = .04f,
+                                applyEffect = {pet -> pet.copy(happiness = pet.happiness*1.02f) } //make pet 2% happier
+                            )
+                            petStateViewModel.feedPet(debugSnack) }
                     ) {
-                        Text(stringResource(R.string.button_feed))
-                    }*/
+                        Text(stringResource(R.string.button_feed) + "(DBG)")
+                    }
                     Button(
                         onClick = onNavigatePetHistory
                     ) {

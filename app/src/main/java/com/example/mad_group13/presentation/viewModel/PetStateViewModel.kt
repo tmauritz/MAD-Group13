@@ -72,8 +72,7 @@ class PetStateViewModel @Inject constructor(
 
     fun feedPet(snack: Snack){
         _petState.update { pet ->
-            snack.feed(pet)
-            snack.applyEffect(pet)
+            snack.feed(snack.applyEffect(pet))
         }
     }
 
