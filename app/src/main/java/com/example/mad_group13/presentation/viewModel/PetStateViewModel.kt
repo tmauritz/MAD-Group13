@@ -34,8 +34,7 @@ class PetStateViewModel @Inject constructor(
             Log.i("MAD_Pet", "Pulling Pet from Storage...")
             val activePet: Pet = petRepository.getActivePet()
             _petState.update { activePet }
-            //updatePetState(waitForTimeInterval = false) //initial update of pet state
-            petState.distinctUntilChanged { old, new ->  old.id == new.id }.collect{ pet ->
+            petState.collect{ pet -> //automatically save pet to DB when changes are made
                 Log.i("MAD_Pet_Update","Saving Pet to DB... $pet")
                 petRepository.updatePet(pet)
             }
