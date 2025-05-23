@@ -9,6 +9,8 @@ import com.example.mad_group13.data.Pet
 import com.example.mad_group13.data.PetMaturity
 import com.example.mad_group13.data.PetRepository
 import com.example.mad_group13.logic.Constants
+import com.example.mad_group13.logic.nutrition.Food
+import com.example.mad_group13.logic.nutrition.Snack
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -63,9 +65,16 @@ class PetStateViewModel @Inject constructor(
         petUpdateCycle?.cancel()
     }
 
-    fun feedPet() {
+    fun feedPet(food: Food) {
         // TODO: later changing pet-state (lower hunger)
         println("Pet is being fed!") // Nur als Platzhalter
+    }
+
+    fun feedPet(snack: Snack){
+        _petState.update { pet ->
+            snack.feed(pet)
+            snack.applyEffect(pet)
+        }
     }
 
     fun changePetNickname(newName: String) {
@@ -106,11 +115,13 @@ class PetStateViewModel @Inject constructor(
         }
         else if (age >= Constants.PET_MATURITY_INTERVAL * Constants.PET_MATURITY_ADULT) {
             _petState.update { pet -> pet.copy(maturity = PetMaturity.ADULT) }
+            Log.i("MAD_Pet_Maturity","Teen becomes Adult")
             setPetType()
             fullRestoreActivePet()
         }
         else if (age >= Constants.PET_MATURITY_INTERVAL * Constants.PET_MATURITY_TEEN) {
             _petState.update { pet -> pet.copy(maturity = PetMaturity.TEEN) }
+            Log.i("MAD_Pet_Maturity","Baby becomes Teen")
             setPetType()
             fullRestoreActivePet()
         }
