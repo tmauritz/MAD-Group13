@@ -24,11 +24,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.example.mad_group13.R
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +58,7 @@ fun MainScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("My adorable Diamond!") }
+                title = { Text(stringResource(R.string.app_name)) }
             )
         }
 
@@ -79,19 +81,17 @@ fun MainScreen(
                     Button(
                         onClick = { petStateViewModel.fullRestoreActivePet() }
                     ) {
-                        Text("Pokecenter Heal")
+                        Text("Heal(DBG)")
                     }
                     Button(
                         onClick = { petStateViewModel.retirePetAndStartNew() }
                     ) {
-                        Text("Retire(final)!")
+                        Text("Retire(DBG)(final)!")
                     }
                     Button(
-                        onClick = {
-                            showNicknameDialog = true
-                        }
+                        onClick = { petStateViewModel.updatePetState(waitForTimeInterval = false) }
                     ) {
-                        Text("Nickname")
+                        Text("Pass Time(DBG)")
                     }
                 }
 
@@ -109,10 +109,10 @@ fun MainScreen(
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = modifier.fillMaxWidth()){
-                    StatDisplay("Health", activePet.health)
-                    StatDisplay("Hunger", activePet.hunger)
-                    StatDisplay("Happiness", activePet.happiness)
-                    StatDisplay("Activity", activePet.activity)
+                    StatDisplay(stringResource(R.string.label_stat_health), activePet.health)
+                    StatDisplay(stringResource(R.string.label_stat_hunger), activePet.hunger)
+                    StatDisplay(stringResource(R.string.label_stat_happiness), activePet.happiness)
+                    StatDisplay(stringResource(R.string.label_stat_activity), activePet.activity)
                 }
 
                 Row (
@@ -121,20 +121,22 @@ fun MainScreen(
                     modifier = modifier.fillMaxSize()
                 ){
                     Button(
-                        onClick = { petStateViewModel.updatePetState(waitForTimeInterval = false) }
+                        onClick = {
+                            showNicknameDialog = true
+                        }
                     ) {
-                        Text("Pass Time")
+                        Text(stringResource(R.string.button_nickname))
                     }
                     Button(
                         onClick = {
                             petStateViewModel.feedPet() }
                     ) {
-                        Text("Feed")
+                        Text(stringResource(R.string.button_feed))
                     }
                     Button(
                         onClick = onNavigatePetHistory
                     ) {
-                        Text("History")
+                        Text(stringResource(R.string.button_history))
                     }
                 }
             }

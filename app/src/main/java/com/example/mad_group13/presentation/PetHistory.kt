@@ -18,11 +18,13 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.example.mad_group13.R
 import com.example.mad_group13.presentation.viewModel.PetHistoryModel
 import com.example.mad_group13.presentation.viewModel.PetHistoryViewModel
 import com.example.mad_group13.ui.theme.MADGroup13Theme
@@ -78,9 +80,7 @@ fun PetHistoryRowItem(name: String,
                       modifier: Modifier = Modifier) {
     Row (modifier = modifier.padding(5.dp)){
         Text( textAlign = TextAlign.Center,
-            text = "$name reached an age of $age, " +
-            "was last seen ${(happiness*100).toInt()}% happy, " +
-            "${((1f-hunger)*100).toInt()}% hungry and " +
-            "${(activity*100).toInt()}% active.")
+            text = stringResource(R.string.history_pet_summary, name, age, happiness*100, hunger*100, activity*100)
+        )
     }
 }

@@ -11,6 +11,10 @@ android {
     namespace = "com.example.mad_group13"
     compileSdk = 35
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.example.mad_group13"
         minSdk = 31
