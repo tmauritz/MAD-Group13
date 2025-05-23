@@ -66,13 +66,28 @@ class PetStateViewModel @Inject constructor(
     }
 
     fun feedPet(food: Food) {
-        // TODO: later changing pet-state (lower hunger)
-        println("Pet is being fed!") // Nur als Platzhalter
+        _petState.update { pet ->
+            food.feed(pet)
+        }
     }
 
     fun feedPet(snack: Snack){
         _petState.update { pet ->
             snack.feed(snack.applyEffect(pet))
+        }
+    }
+
+    fun reduceHappinessBy(amount: Float) {
+        _petState.update { pet ->
+            val newHappiness = (pet.happiness - amount).coerceAtLeast(0f)
+            pet.copy(happiness = newHappiness)
+        }
+    }
+
+    fun increaseHappinessBy(amount: Float) {
+        _petState.update { pet ->
+            val newHappiness = (pet.happiness + amount).coerceAtLeast(0f)
+            pet.copy(happiness = newHappiness)
         }
     }
 

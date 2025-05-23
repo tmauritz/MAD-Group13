@@ -32,7 +32,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
 import com.example.mad_group13.logic.nutrition.BasicSnack
-import com.example.mad_group13.logic.nutrition.FoodSnackMenuItems
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 import com.example.mad_group13.presentation.viewModel.StockViewModel
 
@@ -40,11 +39,22 @@ import com.example.mad_group13.presentation.viewModel.StockViewModel
 @Composable
 fun MainScreen(
     onNavigatePetHistory: () -> Unit,
+    onNavigateToFoodMenu: () -> Unit,
     modifier: Modifier = Modifier,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     petStateViewModel: PetStateViewModel = hiltViewModel(),
     stockViewModel: StockViewModel = hiltViewModel()
 ) {
+
+    LaunchedEffect(Unit) {
+        stockViewModel.onTeslaPriceChanged = { percentageChange ->
+            if (percentageChange > 0) {
+                petStateViewModel.reduceHappinessBy(percentageChange / 100f)
+            } else {
+                petStateViewModel.increaseHappinessBy(-percentageChange / 100f)
+            }
+        }
+    }
 
     val activePet by petStateViewModel.petState.collectAsState()
     val teslaPrice by stockViewModel.teslaPrice.collectAsState()
@@ -145,16 +155,17 @@ fun MainScreen(
                         Text(stringResource(R.string.button_nickname))
                     }
                     Button(
-                        onClick = {
+                        onClick = onNavigatePetHistory /* Uncomment this for Debug{
                             //TODO: display an item menu with food, limited quantities etc.
                             val debugSnack = BasicSnack(
                                 name = "Sugar Cube",
                                 nutritionValue = .04f,
                                 applyEffect = {pet -> pet.copy(happiness = pet.happiness*1.02f) } //make pet 2% happier
                             )
-                            petStateViewModel.feedPet(debugSnack) }
+                            petStateViewModel.feedPet(debugSnack) }*/
                     ) {
-                        Text(stringResource(R.string.button_feed) + "(DBG)")
+                        //Text(stringResource(R.string.button_feed) + "(DBG)")
+                        Text("Feed Pet")
                     }
                     Button(
                         onClick = onNavigatePetHistory
@@ -187,8 +198,8 @@ fun MainScreen(
 }
 
 
-@Preview(name = "MainScreenPreview")
+/*@Preview(name = "MainScreenPreview")
 @Composable
 fun MainScreenPreview(){
     MainScreen({})
-}
+}*/

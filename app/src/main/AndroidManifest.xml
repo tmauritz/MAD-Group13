@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
 
-        <!-- 🔔 Tesla Alarm BroadcastReceiver -->
+        <!-- Tesla Alarm BroadcastReceiver -->
         <receiver android:name=".TeslaAlarmReceiver" />
 
     </application>

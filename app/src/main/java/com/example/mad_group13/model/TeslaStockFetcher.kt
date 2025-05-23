@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 
 object TeslaStockFetcher {
 
+    //old function, maybe using it later
     fun fetchAndNotifyIfNeeded(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -17,7 +18,7 @@ object TeslaStockFetcher {
 
                 if (price < 700f) {
                     CoroutineScope(Dispatchers.Main).launch {
-                        Toast.makeText(context, "TSLA ist gefallen! Preis: $price", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "TSLA has fallen! price: $price", Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {
