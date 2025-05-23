@@ -30,7 +30,8 @@ class PetRepository @Inject constructor(
     }
 
     suspend fun getNewPet(): Pet{
-        val newPet = Pet(nickname = getPetName(),
+        val newPet = Pet(
+            nickname = getPetName(),
             hunger = .5f + (Random.nextFloat()/2),
             activity = .5f + (Random.nextFloat()/2)
         )

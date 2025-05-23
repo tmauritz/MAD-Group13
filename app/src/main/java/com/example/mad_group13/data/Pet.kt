@@ -14,6 +14,7 @@ data class Pet( //CHANGING ANYTHING HERE MEANS INCREMENTING VERSION NUMBER IN Pe
     val happiness: Float = .5f,
     val hunger: Float = .2f,
     val activity: Float = .5f,
+    val type: Int = 0,
     val lastChecked: Long = System.currentTimeMillis(),
 )
 

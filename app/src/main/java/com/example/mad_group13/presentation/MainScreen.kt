@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.example.mad_group13.R
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -101,7 +100,7 @@ fun MainScreen(
 
                 Row {
                     Image(
-                    painter = painterResource(id = R.drawable.dia_1_purple),
+                    painter = painterResource(id = petStateViewModel.getDrawableID()),
                     contentDescription = "A pretty diamond!",
                     modifier = modifier
                     )

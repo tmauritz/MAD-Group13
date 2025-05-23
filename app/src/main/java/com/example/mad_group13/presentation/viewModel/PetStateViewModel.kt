@@ -4,7 +4,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mad_group13.R
 import com.example.mad_group13.data.Pet
+import com.example.mad_group13.data.PetMaturity
 import com.example.mad_group13.data.PetRepository
 import com.example.mad_group13.logic.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +15,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -91,6 +92,42 @@ class PetStateViewModel @Inject constructor(
         }
     }
 
+    fun getDrawableID(): Int {
+        return when(petState.value.type) {
+            1 -> R.drawable.dia_1_purple    // TODO: Add more artwork :B
+            2 -> R.drawable.dia_1_purple
+            3 -> R.drawable.dia_1_purple
+            else -> R.drawable.dia_1_purple
+        }
+    }
+
+    private fun updatePetMaturity(age: Float) {
+        if (age >= Constants.PET_MATURITY_INTERVAL * Constants.PET_MATURITY_DEATH) {
+            // TODO: DEATH
+        }
+        else if (age >= Constants.PET_MATURITY_INTERVAL * Constants.PET_MATURITY_ADULT) {
+            _petState.update { pet -> pet.copy(maturity = PetMaturity.ADULT) }
+            setPetType()
+            fullRestoreActivePet()
+        }
+        else if (age >= Constants.PET_MATURITY_INTERVAL * Constants.PET_MATURITY_TEEN) {
+            _petState.update { pet -> pet.copy(maturity = PetMaturity.TEEN) }
+            setPetType()
+            fullRestoreActivePet()
+        }
+
+        Log.i("MAD_Pet_Maturity", _petState.value.maturity.toString())
+    }
+
+    private fun setPetType() {
+        // TODO: Set values for specific types
+        if (petState.value.hunger <= 0.5 && petState.value.happiness >= 0.5) {
+            _petState.update { pet -> pet.copy(type = 1) }
+        } else {
+            _petState.update { pet -> pet.copy(type = 2) }
+        }
+    }
+
     fun updatePetState(waitForTimeInterval: Boolean = true){
         // get current time and last checked time
         val nowMillis = System.currentTimeMillis()
@@ -100,6 +137,11 @@ class PetStateViewModel @Inject constructor(
         Log.i("MAD_Pet_Update", "Updating Pet...")
         // get time interval since last change
         val timeDiffMillis = nowMillis - lastCheckedMillis
+
+        // update age, in seconds
+        val updatedAge = _petState.value.age + (timeDiffMillis / 1000).toFloat()
+        // update maturity, if applicable
+        updatePetMaturity(updatedAge)
 
         val relativeHungerLoss = Constants.PET_HUNGER_LOSS_PER_INTERVAL * (timeDiffMillis / Constants.UPDATE_INTERVAL_MS)
         val relativeActivityLoss = Constants.PET_ACTIVITY_LOSS_PER_INTERVAL *  (timeDiffMillis / Constants.UPDATE_INTERVAL_MS)
@@ -115,9 +157,10 @@ class PetStateViewModel @Inject constructor(
         // update Health
         val updatedHealth = if (timeIntervalsOfHealthLoss > 0f) max(_petState.value.health - relativeHealthLoss, 0f) else _petState.value.health
 
-        Log.i("MAD_Pet_Update", "Pet Update for Pet ${_petState.value.id}: new Hunger $updatedHunger, new Health: $updatedHealth, new Activity: $updatedActivity, last checked: $nowMillis")
+        Log.i("MAD_Pet_Update", "Pet Update for Pet ${_petState.value.id}: new Age: $updatedAge, new Hunger: $updatedHunger, new Health: $updatedHealth, new Activity: $updatedActivity, last checked: $nowMillis")
         //update pet
         _petState.update { pet -> pet.copy(
+            age = updatedAge,
             health = updatedHealth,
             hunger = updatedHunger,
             activity = updatedActivity,
