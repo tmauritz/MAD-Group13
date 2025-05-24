@@ -157,8 +157,7 @@ fun MainScreen(
                     Button(
                         onClick = onNavigateToFoodMenu
                     ) {
-                        //Text(stringResource(R.string.button_feed) + "(DBG)")
-                        Text("Feed Pet")
+                        Text(stringResource(R.string.button_feed))
                     }
                     Button(
                         onClick = onNavigatePetHistory

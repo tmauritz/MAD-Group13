@@ -4,10 +4,13 @@
     <string name="button_play">Play</string>
     <string name="button_history">History</string>
     <string name="button_nickname">Nickname</string>
+    <string name="button_back">Back</string>
+    <string name="label_food_hunger">+%1$d Hunger</string>
     <string name="label_history">The Rubble Pit</string>
     <string name="label_stat_health">Health</string>
     <string name="label_stat_hunger">Hunger</string>
     <string name="label_stat_happiness">Happiness</string>
     <string name="label_stat_activity">Activity</string>
+    <string name="label_menu">Menu</string>
     <string name="history_pet_summary">" %1$s reached an age of %2$.0f, was last seen %3$.0f%% happy, %4$.0f%% hungry and %5$.0f%% active."</string>
 </resources>

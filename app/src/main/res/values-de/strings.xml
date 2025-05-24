@@ -5,10 +5,13 @@
     <string name="button_nickname">Spitzname</string>
     <string name="button_feed">Füttern</string>
     <string name="button_play">Spielen</string>
+    <string name="button_back">Zurück</string>
+    <string name="label_food_hunger">+%1$d Hunger</string>
     <string name="label_history">Steinbruch</string>
     <string name="label_stat_health">Gesundheit</string>
     <string name="label_stat_hunger">Hunger</string>
     <string name="label_stat_happiness">Fröhlichkeit</string>
     <string name="label_stat_activity">Aktivität</string>
+    <string name="label_menu">Menü</string>
     <string name="history_pet_summary">" %1$s wurde %2$.0f alt, und war schlussendlich %3$.0f%% fröhlich, %4$.0f%% hungrig und %5$.0f%% aktiv."</string>
 </resources>

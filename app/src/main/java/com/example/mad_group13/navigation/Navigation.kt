@@ -48,7 +48,8 @@ fun Navigation(modifier: Modifier = Modifier) {
         }
         composable(route = Screen.FoodMenu.route) {
             FoodMenuScreen(
-                onBack = backToMainMenu
+                onBack = backToMainMenu,
+                modifier = modifier
             )
         }
     }

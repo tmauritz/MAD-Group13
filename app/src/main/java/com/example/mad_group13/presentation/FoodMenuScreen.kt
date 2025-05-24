@@ -29,8 +29,8 @@ import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 @Composable
 fun FoodMenuScreen(
     onBack: () -> Unit,
-    petStateViewModel: PetStateViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
+    petStateViewModel: PetStateViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     val foodItems = FoodSnackMenuItems.itemList.foodList
@@ -49,7 +49,7 @@ fun FoodMenuScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text("Menu", modifier = Modifier.padding(bottom = 8.dp))
+        Text(stringResource(R.string.label_menu), modifier = Modifier.padding(bottom = 8.dp))
 
         for (food in foodItems) {
             Button(onClick = {
@@ -58,7 +58,7 @@ fun FoodMenuScreen(
                     else -> petStateViewModel.feedPet(food)
                 }
             }) {
-                Text("${food.name} (+${(food.nutritionValue * 100).toInt()} Hunger)")
+                Text("${food.name} (${stringResource(R.string.label_food_hunger, (food.nutritionValue * 100).toInt())})")
             }
         }
         Row(
