@@ -92,7 +92,7 @@ fun MainScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                /*Row (
+                Row (
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = modifier.fillMaxWidth()
@@ -120,7 +120,7 @@ fun MainScreen(
                             Text("GET STOCKS")
                         }
                     }
-                }*/
+                }
 
                 Text(text = activePet.nickname,
                 modifier = modifier.padding(top = 10.dp))
