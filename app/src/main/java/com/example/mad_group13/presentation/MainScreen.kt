@@ -92,7 +92,7 @@ fun MainScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row (
+                /*Row (
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = modifier.fillMaxWidth()
@@ -120,7 +120,7 @@ fun MainScreen(
                             Text("GET STOCKS")
                         }
                     }
-                }
+                }*/
 
                 Text(text = activePet.nickname,
                 modifier = modifier.padding(top = 10.dp))
@@ -155,14 +155,7 @@ fun MainScreen(
                         Text(stringResource(R.string.button_nickname))
                     }
                     Button(
-                        onClick = onNavigatePetHistory /* Uncomment this for Debug{
-                            //TODO: display an item menu with food, limited quantities etc.
-                            val debugSnack = BasicSnack(
-                                name = "Sugar Cube",
-                                nutritionValue = .04f,
-                                applyEffect = {pet -> pet.copy(happiness = pet.happiness*1.02f) } //make pet 2% happier
-                            )
-                            petStateViewModel.feedPet(debugSnack) }*/
+                        onClick = onNavigateToFoodMenu
                     ) {
                         //Text(stringResource(R.string.button_feed) + "(DBG)")
                         Text("Feed Pet")
@@ -198,8 +191,11 @@ fun MainScreen(
 }
 
 
-/*@Preview(name = "MainScreenPreview")
+@Preview(name = "MainScreenPreview")
 @Composable
 fun MainScreenPreview(){
-    MainScreen({})
-}*/
+    MainScreen(
+        onNavigatePetHistory = {},
+        onNavigateToFoodMenu = {}
+    )
+}
