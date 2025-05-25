@@ -115,7 +115,7 @@ class PetStateViewModel @Inject constructor(
     }
 
     fun checkIfPetIsDead() {
-        if (_petState.value.health <= 0f) {
+        if (_petState.value.health <= 0f || _petState.value.hunger <= 0f) {
             viewModelScope.launch {
                 Log.i("MAD_Pet_Death", "Pet ${_petState.value.id} has died.")
                 retirePetAndStartNew()
