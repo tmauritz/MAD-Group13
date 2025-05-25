@@ -114,6 +114,23 @@ class PetStateViewModel @Inject constructor(
         }
     }
 
+    fun checkIfPetIsDead() {
+        if (_petState.value.health <= 0f) {
+            viewModelScope.launch {
+                Log.i("MAD_Pet_Death", "Pet ${_petState.value.id} has died.")
+                retirePetAndStartNew()
+            }
+        }
+    }
+
+    //for Debuging: should be deleted before project completion
+    fun reduceHungerBy(amount: Float) {
+        _petState.update { pet ->
+            val newHunger = (pet.hunger - amount).coerceAtLeast(0f)
+            pet.copy(hunger = newHunger)
+        }
+    }
+
     fun getDrawableID(): Int {
         return when(petState.value.type) {
             1 -> R.drawable.dia_1_purple    // TODO: Add more artwork :B
@@ -191,6 +208,7 @@ class PetStateViewModel @Inject constructor(
             lastChecked = nowMillis
             )
         }
+        checkIfPetIsDead()
     }
 
 }
