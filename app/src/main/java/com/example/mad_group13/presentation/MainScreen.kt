@@ -1,6 +1,8 @@
 package com.example.mad_group13.presentation
 
+import android.content.res.Resources.Theme
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +29,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -34,6 +38,7 @@ import com.example.mad_group13.R
 import com.example.mad_group13.logic.nutrition.BasicSnack
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 import com.example.mad_group13.presentation.viewModel.StockViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,8 +72,9 @@ fun MainScreen(
         }
     }
 
-    //TODO: these don't belong here i guess?
+    //TODO: these don't belong here i guess? idk where to put them though
     var showNicknameDialog by remember { mutableStateOf(false) }
+    var showFoodMenu by remember { mutableStateOf(false) }
     var isFeeding by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -155,7 +161,7 @@ fun MainScreen(
                         Text(stringResource(R.string.button_nickname))
                     }
                     Button(
-                        onClick = onNavigateToFoodMenu
+                        onClick = { showFoodMenu = true }  //onNavigateToFoodMenu
                     ) {
                         Text(stringResource(R.string.button_feed))
                     }
@@ -175,10 +181,21 @@ fun MainScreen(
                     }
                 )
             }
+            if(showFoodMenu){
+                Dialog(onDismissRequest = {showFoodMenu = false}) {
+                    FoodMenuScreen(
+                        onBack = { showFoodMenu = false },
+                        modifier = modifier,
+                        petStateViewModel = petStateViewModel,
+                        lifecycleOwner = lifecycleOwner
+                    )
+                }
+            }
+
             if (isFeeding) {
                 LaunchedEffect(Unit) {
                     // TODO: changing it later with the animation or real logic
-                    kotlinx.coroutines.delay(2000)
+                    delay(2000)
                     isFeeding = false
                 }
             }
