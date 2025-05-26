@@ -93,16 +93,28 @@ fun MainScreen(
                 .padding(innerPadding)
                 .fillMaxSize(),
         ){
+            Image(
+                painter = painterResource(id = petStateViewModel.getDrawableID()),
+                contentDescription = "A pretty diamond!",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center)
 
-            Column (
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+            )
+        }
+        Column (
+            modifier =  Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Row (
+            Column {
+                Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = modifier.fillMaxWidth()
-                ){
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(innerPadding)
+                ) {
                     Button(
                         onClick = { petStateViewModel.fullRestoreActivePet() }
                     ) {
@@ -128,17 +140,14 @@ fun MainScreen(
                     }
                 }
 
-                Text(text = activePet.nickname,
-                modifier = modifier.padding(top = 10.dp))
+                Text(
+                    text = activePet.nickname,
+                    modifier = modifier.padding(top = 10.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
 
-                Row {
-                    Image(
-                    painter = painterResource(id = petStateViewModel.getDrawableID()),
-                    contentDescription = "A pretty diamond!",
-                    modifier = modifier
-                    )
-                }
-
+            Column{
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = modifier.fillMaxWidth()){
@@ -150,8 +159,7 @@ fun MainScreen(
 
                 Row (
                     horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.Bottom,
-                    modifier = modifier.fillMaxSize()
+                    modifier = modifier.fillMaxWidth()
                 ){
                     Button(
                         onClick = {
@@ -172,35 +180,35 @@ fun MainScreen(
                     }
                 }
             }
-            if (showNicknameDialog) {
-                NicknameDialog(
-                    onDismiss = { showNicknameDialog = false },
-                    onConfirm = { newName ->
-                        petStateViewModel.changePetNickname(newName)
-                        showNicknameDialog = false
-                    }
-                )
-            }
-            if(showFoodMenu){
-                Dialog(onDismissRequest = {showFoodMenu = false}) {
-                    FoodMenuScreen(
-                        onBack = { showFoodMenu = false },
-                        modifier = modifier,
-                        petStateViewModel = petStateViewModel,
-                        lifecycleOwner = lifecycleOwner
-                    )
-                }
-            }
 
-            if (isFeeding) {
-                LaunchedEffect(Unit) {
-                    // TODO: changing it later with the animation or real logic
-                    delay(2000)
-                    isFeeding = false
+        }
+        if (showNicknameDialog) {
+            NicknameDialog(
+                onDismiss = { showNicknameDialog = false },
+                onConfirm = { newName ->
+                    petStateViewModel.changePetNickname(newName)
+                    showNicknameDialog = false
                 }
+            )
+        }
+        if(showFoodMenu){
+            Dialog(onDismissRequest = {showFoodMenu = false}) {
+                FoodMenuScreen(
+                    onBack = { showFoodMenu = false },
+                    modifier = modifier,
+                    petStateViewModel = petStateViewModel,
+                    lifecycleOwner = lifecycleOwner
+                )
             }
         }
 
+        if (isFeeding) {
+            LaunchedEffect(Unit) {
+                // TODO: changing it later with the animation or real logic
+                delay(2000)
+                isFeeding = false
+            }
+        }
 
     }
 
