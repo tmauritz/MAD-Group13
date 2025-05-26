@@ -115,7 +115,10 @@ class PetStateViewModel @Inject constructor(
     }
 
     fun checkIfPetIsDead() {
-        if (_petState.value.health <= 0f || _petState.value.hunger <= 0f) {
+        if (_petState.value.health <= 0f ||
+            _petState.value.hunger <= 0f ||
+            _petState.value.age >= Constants.PET_MATURITY_DEATH ||
+            _petState.value.sickness == true && _petState.value.lastChecked - _petState.value.sicknessTimestamp > Constants.ONE_DAY * 2) {
             viewModelScope.launch {
                 Log.i("MAD_Pet_Death", "Pet ${_petState.value.id} has died.")
                 retirePetAndStartNew()
@@ -141,16 +144,13 @@ class PetStateViewModel @Inject constructor(
     }
 
     private fun updatePetMaturity(age: Float) {
-        if (age >= Constants.PET_MATURITY_INTERVAL * Constants.PET_MATURITY_DEATH) {
-            // TODO: DEATH
-        }
-        else if (age >= Constants.PET_MATURITY_INTERVAL * Constants.PET_MATURITY_ADULT) {
+        if (age >= Constants.PET_MATURITY_ADULT) {
             _petState.update { pet -> pet.copy(maturity = PetMaturity.ADULT) }
             Log.i("MAD_Pet_Maturity","Teen becomes Adult")
             setPetType()
             fullRestoreActivePet()
         }
-        else if (age >= Constants.PET_MATURITY_INTERVAL * Constants.PET_MATURITY_TEEN) {
+        else if (age >= Constants.PET_MATURITY_TEEN && _petState.value.maturity < PetMaturity.TEEN) {
             _petState.update { pet -> pet.copy(maturity = PetMaturity.TEEN) }
             Log.i("MAD_Pet_Maturity","Baby becomes Teen")
             setPetType()
@@ -169,6 +169,14 @@ class PetStateViewModel @Inject constructor(
         }
     }
 
+    private fun setSickness() {
+        _petState.update { pet -> pet.copy(
+            sickness = true,
+            sicknessTimestamp = System.currentTimeMillis()
+        )
+        }
+    }
+
     fun updatePetState(waitForTimeInterval: Boolean = true){
         // get current time and last checked time
         val nowMillis = System.currentTimeMillis()
@@ -182,7 +190,9 @@ class PetStateViewModel @Inject constructor(
         // update age, in seconds
         val updatedAge = _petState.value.age + (timeDiffMillis / 1000).toFloat()
         // update maturity, if applicable
-        updatePetMaturity(updatedAge)
+        if (_petState.value.maturity < PetMaturity.ADULT) { updatePetMaturity(updatedAge) }
+        // random chance for pet to get sick
+        if ((0..100).random() < 10) { setSickness() }
 
         val relativeHungerLoss = Constants.PET_HUNGER_LOSS_PER_INTERVAL * (timeDiffMillis / Constants.UPDATE_INTERVAL_MS)
         val relativeActivityLoss = Constants.PET_ACTIVITY_LOSS_PER_INTERVAL *  (timeDiffMillis / Constants.UPDATE_INTERVAL_MS)
