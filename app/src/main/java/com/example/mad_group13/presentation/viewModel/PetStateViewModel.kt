@@ -16,7 +16,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -136,10 +135,11 @@ class PetStateViewModel @Inject constructor(
 
     fun getDrawableID(): Int {
         return when(petState.value.type) {
-            1 -> R.drawable.dia_1_purple    // TODO: Add more artwork :B
-            2 -> R.drawable.dia_1_purple
-            3 -> R.drawable.dia_1_purple
-            else -> R.drawable.dia_1_purple
+            0 -> R.drawable.dia_0_baby
+            1 -> R.drawable.dia_1_teen    // TODO: Add more artwork :B
+            2 -> R.drawable.dia_2_adult
+            3 -> R.drawable.dia_20_purple
+            else -> R.drawable.dia_1_teen
         }
     }
 
@@ -151,9 +151,12 @@ class PetStateViewModel @Inject constructor(
             fullRestoreActivePet()
         }
         else if (age >= Constants.PET_MATURITY_TEEN && _petState.value.maturity < PetMaturity.TEEN) {
-            _petState.update { pet -> pet.copy(maturity = PetMaturity.TEEN) }
+            _petState.update { pet -> pet.copy(
+                maturity = PetMaturity.TEEN,
+                type = 1
+            ) }
             Log.i("MAD_Pet_Maturity","Baby becomes Teen")
-            setPetType()
+            //setPetType()
             fullRestoreActivePet()
         }
 
