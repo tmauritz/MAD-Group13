@@ -44,7 +44,6 @@ import kotlinx.coroutines.delay
 @Composable
 fun MainScreen(
     onNavigatePetHistory: () -> Unit,
-    onNavigateToFoodMenu: () -> Unit,
     modifier: Modifier = Modifier,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     petStateViewModel: PetStateViewModel = hiltViewModel(),
@@ -82,7 +81,12 @@ fun MainScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.app_name)) },
                 actions = {
-                    //TODO: Menu?
+                    MainMenu(
+                        mainMenuItems = listOf(
+                            MainMenuItem(stringResource(R.string.button_history), onNavigatePetHistory),
+                            MainMenuItem(stringResource(R.string.button_retire), {petStateViewModel.retirePetAndStartNew()}) //TODO: popup etc.
+                            )
+                    )
                 }
             )
         }
@@ -118,12 +122,14 @@ fun MainScreen(
                     Button(
                         onClick = { petStateViewModel.fullRestoreActivePet() }
                     ) {
-                        Text("Heal(DBG)")
+                        Text("FREE REAL ESTATE")
                     }
                     Button(
-                        onClick = { petStateViewModel.retirePetAndStartNew() }
+                        onClick = {
+                            //TODO
+                        }
                     ) {
-                        Text("Retire(DBG)(final)!")
+                        Text(stringResource(R.string.label_minigames))
                     }
                     Column(
                         horizontalAlignment = Alignment.End,
@@ -176,7 +182,7 @@ fun MainScreen(
                     Button(
                         onClick = onNavigatePetHistory
                     ) {
-                        Text(stringResource(R.string.button_history))
+                        Text("FREE REAL ESTATE")
                     }
                 }
             }
@@ -220,6 +226,5 @@ fun MainScreen(
 fun MainScreenPreview(){
     MainScreen(
         onNavigatePetHistory = {},
-        onNavigateToFoodMenu = {}
     )
 }

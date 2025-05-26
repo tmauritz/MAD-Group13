@@ -31,7 +31,6 @@ fun Navigation(modifier: Modifier = Modifier) {
         composable(route = Screen.MainScreen.route) {
             MainScreen(
                 onNavigatePetHistory = {navController.navigate(Screen.PetHistory.route)},
-                onNavigateToFoodMenu = { navController.navigate(Screen.FoodMenu.route) },
                 modifier = modifier
             )
         }
