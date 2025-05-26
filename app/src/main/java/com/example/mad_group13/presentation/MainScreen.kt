@@ -1,8 +1,6 @@
 package com.example.mad_group13.presentation
 
-import android.content.res.Resources.Theme
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,12 +28,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
-import com.example.mad_group13.logic.nutrition.BasicSnack
+import com.example.mad_group13.presentation.minigame.MinigameSelector
+import com.example.mad_group13.presentation.minigame.NumberGuessingGame
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 import com.example.mad_group13.presentation.viewModel.StockViewModel
 import kotlinx.coroutines.delay
@@ -75,6 +73,7 @@ fun MainScreen(
     var showNicknameDialog by remember { mutableStateOf(false) }
     var showFoodMenu by remember { mutableStateOf(false) }
     var isFeeding by remember { mutableStateOf(false) }
+    var activeMinigame by remember { mutableStateOf(MinigameSelector.NONE) }
 
     Scaffold(
         topBar = {
@@ -92,11 +91,11 @@ fun MainScreen(
         }
 
     ) { innerPadding ->
-        Box (
+        Box(
             modifier = modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-        ){
+        ) {
             Image(
                 painter = painterResource(id = petStateViewModel.getDrawableID()),
                 contentDescription = "A pretty diamond!",
@@ -106,11 +105,11 @@ fun MainScreen(
 
             )
         }
-        Column (
-            modifier =  Modifier.fillMaxSize(),
+        Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
-            ) {
+        ) {
             Column {
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -126,7 +125,7 @@ fun MainScreen(
                     }
                     Button(
                         onClick = {
-                            //TODO
+                            activeMinigame = MinigameSelector.NUMBERGUESS //TODO: selection
                         }
                     ) {
                         Text(stringResource(R.string.label_minigames))
@@ -148,25 +147,27 @@ fun MainScreen(
 
                 Text(
                     text = activePet.nickname,
-                    modifier = modifier.padding(top = 10.dp)
+                    modifier = modifier
+                        .padding(top = 10.dp)
                         .align(Alignment.CenterHorizontally)
                 )
             }
 
-            Column{
+            Column {
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = modifier.fillMaxWidth()){
+                    modifier = modifier.fillMaxWidth()
+                ) {
                     StatDisplay(stringResource(R.string.label_stat_health), activePet.health)
                     StatDisplay(stringResource(R.string.label_stat_hunger), activePet.hunger)
                     StatDisplay(stringResource(R.string.label_stat_happiness), activePet.happiness)
                     StatDisplay(stringResource(R.string.label_stat_activity), activePet.activity)
                 }
 
-                Row (
+                Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = modifier.fillMaxWidth()
-                ){
+                ) {
                     Button(
                         onClick = {
                             showNicknameDialog = true
@@ -186,8 +187,29 @@ fun MainScreen(
                     }
                 }
             }
-
         }
+
+        if(activeMinigame != MinigameSelector.NONE) {
+            Dialog(onDismissRequest = { activeMinigame = MinigameSelector.NONE }) {
+                val onWin = {
+                    petStateViewModel.increaseHappinessBy(.2f)
+                    petStateViewModel.increaseActivity(.2f)
+                    activeMinigame = MinigameSelector.NONE
+                }
+                val onLoss = {
+                    petStateViewModel.reduceHappinessBy(.2f)
+                    petStateViewModel.increaseActivity(.2f)
+                    activeMinigame = MinigameSelector.NONE
+                }
+                when (activeMinigame) {
+                    MinigameSelector.NUMBERGUESS -> NumberGuessingGame(onWin, onLoss)
+                    MinigameSelector.REACTION -> {}
+                    MinigameSelector.MEMORY -> {}
+                    MinigameSelector.NONE -> {}
+                }
+            }
+        }
+
         if (showNicknameDialog) {
             NicknameDialog(
                 onDismiss = { showNicknameDialog = false },

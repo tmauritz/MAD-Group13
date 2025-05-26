@@ -224,4 +224,11 @@ class PetStateViewModel @Inject constructor(
         checkIfPetIsDead()
     }
 
+    fun increaseActivity(amount: Float) {
+        _petState.update { pet -> pet.copy(
+                activity = pet.activity + amount
+            )
+        }
+    }
+
 }
