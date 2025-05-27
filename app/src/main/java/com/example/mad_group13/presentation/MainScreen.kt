@@ -75,6 +75,7 @@ fun MainScreen(
     var showFoodMenu by remember { mutableStateOf(false) }
     var isFeeding by remember { mutableStateOf(false) }
     var activeMinigame by remember { mutableStateOf(MinigameSelector.NONE) }
+    var showRetireDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -84,7 +85,7 @@ fun MainScreen(
                     MainMenu(
                         mainMenuItems = listOf(
                             MainMenuItem(stringResource(R.string.button_history), onNavigatePetHistory),
-                            MainMenuItem(stringResource(R.string.button_retire), {petStateViewModel.retirePetAndStartNew()}) //TODO: popup etc.
+                            MainMenuItem(stringResource(R.string.button_retire), {showRetireDialog = true})
                             )
                     )
                 }
@@ -246,8 +247,18 @@ fun MainScreen(
             DeadPetDialog(
                 petName = activePet.nickname,
                 onStartNewLife = {
-                    petStateViewModel.startNewLife()
-                }
+                    petStateViewModel.retirePetAndStartNew()
+                }, false
+            )
+        }
+
+        if (showRetireDialog) {
+            DeadPetDialog(
+                petName = activePet.nickname,
+                onStartNewLife = {
+                    petStateViewModel.retirePetAndStartNew()
+                    showRetireDialog = false
+                }, true
             )
         }
 

@@ -113,12 +113,6 @@ class PetStateViewModel @Inject constructor(
         }
     }
 
-    fun startNewLife() {
-        viewModelScope.launch {
-            retirePetAndStartNew()
-        }
-    }
-
     //for Debuging: should be deleted before project completion
     fun reduceHungerBy(amount: Float) {
         _petState.update { pet ->

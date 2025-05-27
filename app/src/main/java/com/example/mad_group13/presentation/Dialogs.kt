@@ -35,10 +35,16 @@ fun NicknameDialog(
 }
 
 @Composable
-fun DeadPetDialog(petName: String, onStartNewLife: () -> Unit) {
+fun DeadPetDialog(petName: String, onStartNewLife: () -> Unit, ifButtonCheck: Boolean) {
+    var text: String = ""
+    if (ifButtonCheck) {
+        text = "You have now retired your pet $petName"
+    } else {
+        text = "$petName is dead"
+    }
     androidx.compose.material3.AlertDialog(
         onDismissRequest = {},
-        title = { Text("$petName is dead") },
+        title = { Text(text) },
         text = { Text("Start a new life?") },
         confirmButton = {
             Button(onClick = { onStartNewLife() }) {
