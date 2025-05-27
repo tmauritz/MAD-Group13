@@ -32,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
+import com.example.mad_group13.logic.Constants
 import com.example.mad_group13.presentation.minigame.MinigameSelector
 import com.example.mad_group13.presentation.minigame.NumberGuessingGame
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
@@ -236,6 +237,18 @@ fun MainScreen(
                 delay(2000)
                 isFeeding = false
             }
+        }
+
+        if (activePet.health <= 0f ||
+                activePet.hunger <= 0f ||
+                activePet.age >= Constants.PET_MATURITY_DEATH ||
+                activePet.sickness == true && activePet.lastChecked - activePet.sicknessTimestamp > Constants.ONE_DAY * 2) {
+            DeadPetDialog(
+                petName = activePet.nickname,
+                onStartNewLife = {
+                    petStateViewModel.startNewLife()
+                }
+            )
         }
 
     }

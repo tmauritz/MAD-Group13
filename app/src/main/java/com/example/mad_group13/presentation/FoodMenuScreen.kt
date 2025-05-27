@@ -42,13 +42,6 @@ fun FoodMenuScreen(
     val foodItems = FoodSnackMenuItems.itemList.foodList
     val activePet by petStateViewModel.petState.collectAsState()
 
-    DisposableEffect(lifecycleOwner) {
-        lifecycleOwner.lifecycle.addObserver(petStateViewModel)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(petStateViewModel)
-        }
-    }
-
     Card(){
         Column(
             modifier = Modifier

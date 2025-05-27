@@ -113,15 +113,9 @@ class PetStateViewModel @Inject constructor(
         }
     }
 
-    fun checkIfPetIsDead() {
-        if (_petState.value.health <= 0f ||
-            _petState.value.hunger <= 0f ||
-            _petState.value.age >= Constants.PET_MATURITY_DEATH ||
-            _petState.value.sickness == true && _petState.value.lastChecked - _petState.value.sicknessTimestamp > Constants.ONE_DAY * 2) {
-            viewModelScope.launch {
-                Log.i("MAD_Pet_Death", "Pet ${_petState.value.id} has died.")
-                retirePetAndStartNew()
-            }
+    fun startNewLife() {
+        viewModelScope.launch {
+            retirePetAndStartNew()
         }
     }
 
@@ -221,7 +215,6 @@ class PetStateViewModel @Inject constructor(
             lastChecked = nowMillis
             )
         }
-        checkIfPetIsDead()
     }
 
     fun increaseActivity(amount: Float) {
