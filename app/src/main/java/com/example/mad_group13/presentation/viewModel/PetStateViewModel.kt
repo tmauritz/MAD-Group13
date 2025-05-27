@@ -91,8 +91,7 @@ class PetStateViewModel @Inject constructor(
     }
 
     fun changePetNickname(newName: String) {
-        // TODO: save pet-name
-        println("Pet's new nickname is: $newName") // placeholder
+        _petState.update { pet -> pet.copy(nickname = newName) }
     }
 
     fun retirePetAndStartNew(){
