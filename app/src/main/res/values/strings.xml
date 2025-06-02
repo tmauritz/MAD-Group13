@@ -25,7 +25,7 @@
     <string name="reaction_too_late">You pressed too late! Reaction: %1$.3fs. You lose.</string>
     <string name="reaction_close_button">Close</string>
     <string name="minigame_choose">Choose a Minigame</string>
-    <string name="minigame_number_guess">Number Guessing Game</string>
+    <string name="minigame_number_guess">Guessing Game</string>
     <string name="minigame_reaction">Reaction Game</string>
     <string name="minigame_memory">Memory Game</string>
     <string name="nickname_dialog_title">Give your pet a nickname</string>
@@ -36,4 +36,13 @@
     <string name="dead_pet_dead">%1$s is dead</string>
     <string name="dead_pet_start_new">Start a new life?</string>
     <string name="button_start_new_life">Start a new life</string>
+    <string name="minigame_number_description">Your Pet has locked you out! Guess a 4-digit number with unique digits, no zeroes.</string>
+    <string name="minigame_number_guesses_so_far">Guesses so far:</string>
+    <string name="minigame_number_your_guess">Your Guess:</string>
+    <string name="minigame_number_break_lock">Break the lock...</string>
+    <string name="minigame_number_guess_button">Guess Digits!</string>
+    <string name="minigame_number_win">Congratulations, you win!</string>
+    <string name="minigame_number_loss">You lose...</string>
+    <string name="minigame_number_correct_digits">Digits: %1$d</string>
+    <string name="minigame_number_correct_positions">Positions: %1$d</string>
 </resources>

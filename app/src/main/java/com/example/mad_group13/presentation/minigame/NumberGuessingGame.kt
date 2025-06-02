@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.mad_group13.R
 import com.example.mad_group13.presentation.minigame.numberguess.GuessResult
 import com.example.mad_group13.presentation.minigame.numberguess.NumberGuessViewModel
 
@@ -44,9 +46,9 @@ fun NumberGuessingGame(onWin: ()-> Unit, onLoss: ()->Unit, numberGuessViewModel:
 
     Card(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
         Column(modifier = Modifier.padding(5.dp), horizontalAlignment = Alignment.CenterHorizontally){
-            Text(text = "Your Pet has locked you out! Guess a 4-digit number with unique digits, no zeroes.", textAlign = TextAlign.Center)
+            Text(text = stringResource(R.string.minigame_number_description), textAlign = TextAlign.Center)
 
-            Text(text = "Guesses so far:", modifier = Modifier.padding(top = 10.dp))
+            Text(text = stringResource(R.string.minigame_number_guesses_so_far), modifier = Modifier.padding(top = 10.dp))
             LazyColumn(modifier = Modifier.height(200.dp)){ items(previousGuessList){ guess -> GuessResultItem(guess) } }
 
             HorizontalDivider()
@@ -54,7 +56,7 @@ fun NumberGuessingGame(onWin: ()-> Unit, onLoss: ()->Unit, numberGuessViewModel:
                 value = userGuessState,
                 onValueChange = {val filtered = it.text.filter { char -> char.isDigit() }.take(4)
                     userGuessState = it.copy(text = filtered, selection = TextRange(filtered.length))},
-                label = { Text("Your Guess:") },
+                label = { Text(stringResource(R.string.minigame_number_your_guess)) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
@@ -68,22 +70,27 @@ fun NumberGuessingGame(onWin: ()-> Unit, onLoss: ()->Unit, numberGuessViewModel:
                 MinigameResult.IN_PROGRESS ->
                     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
                         OutlinedButton(onClick = onLoss) {
-                            Text("Break the Lock...")
+                            Text(stringResource(R.string.minigame_number_break_lock))
                         }
                         Button(onClick = { numberGuessViewModel.evaluateUserGuess(userGuessState.text) }) {
-                            Text("Guess Digits!")
+                            Text(stringResource(R.string.minigame_number_guess_button))
                         }
                     }
                 MinigameResult.WIN -> {
-                    Text("You win!")
+                    Text(stringResource(R.string.minigame_number_win))
                     Button(onClick = {
                         onWin()
                     }) {
-                        Text("Close")
+                        Text(stringResource(R.string.button_back))
                     }
                 }
-                MinigameResult.LOSS -> Button(onClick = {numberGuessViewModel.evaluateUserGuess(userGuessState.text)}) {
-                    Text("Guess")
+                MinigameResult.LOSS -> {
+                    Text(stringResource(R.string.minigame_number_loss))
+                    Button(onClick = {
+                        onWin()
+                    }) {
+                        Text(stringResource(R.string.button_back))
+                    }
                 }
             }
         }
@@ -94,8 +101,8 @@ fun NumberGuessingGame(onWin: ()-> Unit, onLoss: ()->Unit, numberGuessViewModel:
 fun GuessResultItem(guessResult: GuessResult){
     Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()){
         Text(text = guessResult.guess)
-        Text(text = "Digits: ${guessResult.correctDigits}")
-        Text(text = "Positions: ${guessResult.correctPositions}")
+        Text(text = stringResource(R.string.minigame_number_correct_digits, guessResult.correctDigits))
+        Text(text = stringResource(R.string.minigame_number_correct_positions, guessResult.correctPositions))
     }
 }
 

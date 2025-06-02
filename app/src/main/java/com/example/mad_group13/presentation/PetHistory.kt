@@ -1,7 +1,5 @@
 package com.example.mad_group13.presentation
 
-import android.icu.text.CaseMap.Title
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,9 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
-import com.example.mad_group13.presentation.viewModel.PetHistoryModel
 import com.example.mad_group13.presentation.viewModel.PetHistoryViewModel
-import com.example.mad_group13.ui.theme.MADGroup13Theme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,14 +45,14 @@ fun PetHistory(onBackNavigation: () -> Unit,
     Scaffold(modifier = modifier,
         topBar = {
             TopAppBar(
-                title = {Text("The Rubble Dump")}
+                title = {Text(stringResource(R.string.label_history))}
             )},
         bottomBar = {
         Row (modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
             Button(
                 onClick = onBackNavigation,
             )
-        { Text("Back to Main Screen") } }
+        { Text(stringResource(R.string.button_back)) } }
     }){ paddingValues ->
         LazyColumn(modifier = modifier.padding(paddingValues)) {
             items(petHistory.petList){pet -> PetHistoryRowItem(

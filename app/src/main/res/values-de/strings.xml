@@ -37,4 +37,13 @@
     <string name="dead_pet_dead">%1$s ist tot</string>
     <string name="dead_pet_start_new">Ein neues Leben beginnen?</string>
     <string name="button_start_new_life">Ein neues Leben beginnen</string>
+    <string name="minigame_number_description">Dein Diamant hat dich ausgesperrt! Errate die 4-stellige Zahl mit eindeutigen Ziffern, ohne Nullen.</string>
+    <string name="minigame_number_guesses_so_far">Bisherige Versuche:</string>
+    <string name="minigame_number_your_guess">Versuch:</string>
+    <string name="minigame_number_break_lock">Zerbrich das Schloss...</string>
+    <string name="minigame_number_guess_button">Raten</string>
+    <string name="minigame_number_win">Du hast die Zahl erraten!</string>
+    <string name="minigame_number_loss">Leider verloren...</string>
+    <string name="minigame_number_correct_digits">Ziffern: %1$d</string>
+    <string name="minigame_number_correct_positions">Positionen: %1$d</string>
 </resources>
