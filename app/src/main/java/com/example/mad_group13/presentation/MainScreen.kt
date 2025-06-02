@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -72,6 +73,7 @@ fun MainScreen(
             lifecycleOwner.lifecycle.removeObserver(petStateViewModel)
         }
     }
+
 
     //TODO: these don't belong here i guess? idk where to put them though
     var showNicknameDialog by remember { mutableStateOf(false) }
@@ -118,10 +120,31 @@ fun MainScreen(
             Column {
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = modifier
+                        .padding(innerPadding)
+                        .fillMaxWidth()){
+                    StatDisplay(stringResource(R.string.label_stat_health), activePet.health)
+                    StatDisplay(stringResource(R.string.label_stat_hunger), activePet.hunger)
+                    StatDisplay(stringResource(R.string.label_stat_happiness), activePet.happiness)
+                    StatDisplay(stringResource(R.string.label_stat_activity), activePet.activity)
+                }
+            }
+
+            Column{
+                Text(
+                    text = activePet.nickname,
+                    textAlign = TextAlign.Center,
+                    modifier = modifier
+                        .padding(bottom = 20.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            showNicknameDialog = true
+                        }
+                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(innerPadding)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.icons_heal),
@@ -129,8 +152,8 @@ fun MainScreen(
                         modifier = Modifier
                             .width(70.dp)
                             .clickable {
-                            petStateViewModel.fullRestoreActivePet()
-                        }
+                                petStateViewModel.fullRestoreActivePet()
+                            }
                     )
                     Image(
                         painter = painterResource(id = R.drawable.icons_snack),
@@ -141,6 +164,11 @@ fun MainScreen(
                                 Log.i("MAD_MainScreen_image", "Se snack hath been clicked")
                             }
                     )
+                    Button(
+                        onClick = { showFoodMenu = true }  //onNavigateToFoodMenu
+                    ) {
+                        Text(stringResource(R.string.button_feed))
+                    }
 
                     Image(
                         painter = painterResource(id = R.drawable.icons_minigames),
@@ -168,47 +196,6 @@ fun MainScreen(
                             Text("STOCKS")
                         }
                     }*/
-                }
-
-                Text(
-                    text = activePet.nickname,
-                    modifier = modifier
-                        .padding(top = 10.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-            }
-
-            Column{
-                Row(
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = modifier.fillMaxWidth()){
-                    StatDisplay(stringResource(R.string.label_stat_health), activePet.health)
-                    StatDisplay(stringResource(R.string.label_stat_hunger), activePet.hunger)
-                    StatDisplay(stringResource(R.string.label_stat_happiness), activePet.happiness)
-                    StatDisplay(stringResource(R.string.label_stat_activity), activePet.activity)
-                }
-
-                Row (
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    modifier = modifier.fillMaxWidth()
-                ){
-                    Button(
-                        onClick = {
-                            showNicknameDialog = true
-                        }
-                    ) {
-                        Text(stringResource(R.string.button_nickname))
-                    }
-                    Button(
-                        onClick = { showFoodMenu = true }  //onNavigateToFoodMenu
-                    ) {
-                        Text(stringResource(R.string.button_feed))
-                    }
-                    Button(
-                        onClick = onNavigatePetHistory
-                    ) {
-                        Text("FREE REAL ESTATE")
-                    }
                 }
             }
         }
