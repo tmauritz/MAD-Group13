@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -39,6 +41,7 @@ import com.example.mad_group13.R
 import com.example.mad_group13.logic.Constants
 import com.example.mad_group13.presentation.minigame.MinigameSelector
 import com.example.mad_group13.presentation.minigame.NumberGuessingGame
+import com.example.mad_group13.presentation.minigame.ReactionGame
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 import com.example.mad_group13.presentation.viewModel.StockViewModel
 import kotlinx.coroutines.delay
@@ -81,6 +84,7 @@ fun MainScreen(
     var isFeeding by remember { mutableStateOf(false) }
     var activeMinigame by remember { mutableStateOf(MinigameSelector.NONE) }
     var showRetireDialog by remember { mutableStateOf(false) }
+    var showMinigameSelection by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -176,9 +180,7 @@ fun MainScreen(
                         modifier = Modifier
                             .width(70.dp)
                             .clickable {
-                                activeMinigame = MinigameSelector.NUMBERGUESS
-                                // TODO: add games here
-                                Log.i("MAD_MainScreen_image", "Minigames")
+                                showMinigameSelection = true
                             }
                     )
 
@@ -214,12 +216,45 @@ fun MainScreen(
                 }
                 when (activeMinigame) {
                     MinigameSelector.NUMBERGUESS -> NumberGuessingGame(onWin, onLoss)
-                    MinigameSelector.REACTION -> {}
+                    MinigameSelector.REACTION -> ReactionGame(onWin, onLoss)
                     MinigameSelector.MEMORY -> {}
                     MinigameSelector.NONE -> {}
                 }
             }
         }
+
+        if (showMinigameSelection) {
+            Dialog(onDismissRequest = { showMinigameSelection = false }) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("Choose a Minigame")
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Button(onClick = {
+                        activeMinigame = MinigameSelector.NUMBERGUESS
+                        showMinigameSelection = false
+                    }) {
+                        Text("Number Guessing Game")
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Button(onClick = {
+                        activeMinigame = MinigameSelector.REACTION
+                        showMinigameSelection = false
+                    }) {
+                        Text("Reaction Game")
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Button(onClick = {
+                        activeMinigame = MinigameSelector.MEMORY
+                        showMinigameSelection = false
+                    }) {
+                        Text("Memory Game")
+                    }
+                }
+            }
+        }
+
 
         if (showNicknameDialog) {
             NicknameDialog(
