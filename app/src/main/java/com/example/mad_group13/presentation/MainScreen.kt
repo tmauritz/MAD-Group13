@@ -232,7 +232,6 @@ fun MainScreen(
             Dialog(onDismissRequest = { showMinigameSelection = false }) {
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
                         .background(Color.Black.copy(alpha = 0.5f))
                         .padding(32.dp),
                     contentAlignment = Alignment.Center
@@ -254,21 +253,21 @@ fun MainScreen(
                                 activeMinigame = MinigameSelector.NUMBERGUESS
                                 showMinigameSelection = false
                             }) {
-                                stringResource(R.string.minigame_number_guess)
+                                Text(stringResource(R.string.minigame_number_guess))
                             }
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(onClick = {
                                 activeMinigame = MinigameSelector.REACTION
                                 showMinigameSelection = false
                             }) {
-                                stringResource(R.string.minigame_reaction)
+                                Text(stringResource(R.string.minigame_reaction))
                             }
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(onClick = {
                                 activeMinigame = MinigameSelector.MEMORY
                                 showMinigameSelection = false
                             }) {
-                                stringResource(R.string.minigame_memory)
+                                Text(stringResource(R.string.minigame_memory))
                             }
                         }
                     }
