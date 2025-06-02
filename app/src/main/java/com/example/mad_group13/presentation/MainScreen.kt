@@ -192,7 +192,7 @@ fun MainScreen(
                     )
 
                     // Debug stocks:
-                    /*Column(
+                    Column(
                         horizontalAlignment = Alignment.End,
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier.padding(end = 12.dp)
@@ -204,7 +204,7 @@ fun MainScreen(
                         ) {
                             Text("STOCKS")
                         }
-                    }*/
+                    }
                 }
             }
         }
