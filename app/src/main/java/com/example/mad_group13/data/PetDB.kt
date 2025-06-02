@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [Pet::class],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 abstract class PetDB: RoomDatabase(){

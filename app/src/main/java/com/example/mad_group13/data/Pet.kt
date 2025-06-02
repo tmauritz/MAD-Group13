@@ -10,15 +10,23 @@ data class Pet( //CHANGING ANYTHING HERE MEANS INCREMENTING VERSION NUMBER IN Pe
     val nickname: String = "My Adorable Diamond",
     val maturity: PetMaturity = PetMaturity.BABY,
     val age: Float = 0f,
-    val health: Float = 1f,
-    val happiness: Float = .5f,
-    val hunger: Float = .2f,
-    val activity: Float = .5f,
     val type: Int = 0,
     val sickness: Boolean = false,
     val sicknessTimestamp: Long = 0,
     val lastChecked: Long = System.currentTimeMillis(),
-)
+    var health: Float = 1f,
+    var happiness: Float = 0.5f,
+    var hunger: Float = 0.2f,
+    var activity: Float = 0.5f,
+    ){
+    init {
+        // Coerce initial values to keep between 0 and 100%
+        health = health.coerceIn(0f, 1f)
+        happiness = happiness.coerceIn(0f, 1f)
+        hunger = hunger.coerceIn(0f, 1f)
+        activity = activity.coerceIn(0f, 1f)
+    }
+}
 
 fun getPetName(): String = listOf(
     "Glitterpebble",
