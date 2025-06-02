@@ -24,8 +24,9 @@ fun ReactionGame(
     var message by remember { mutableStateOf("Press Start to begin!") }
     var startTime by remember { mutableStateOf(0L) }
     var startTimer by remember { mutableStateOf(false) }
+    var gameFinished by remember { mutableStateOf(false) }
+    var lastResultWasWin by remember { mutableStateOf(false) }
 
-    // This LaunchedEffect runs only when startTimer becomes true
     LaunchedEffect(startTimer) {
         if (startTimer) {
             delay(3000)
@@ -33,7 +34,7 @@ fun ReactionGame(
             readyToTap = true
             message = "Tap now!"
             startTime = System.currentTimeMillis()
-            startTimer = false  // reset trigger
+            startTimer = false
         }
     }
 
@@ -53,43 +54,59 @@ fun ReactionGame(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            if (!gameStarted) {
+            if (gameFinished) {
                 Button(onClick = {
-                    gameStarted = true
-                    message = "Wait for green..."
-                    boxColor = Color.Red
-                    readyToTap = false
-                    startTimer = true  // trigger LaunchedEffect
+                    if (lastResultWasWin) onWin() else onLoss()
+                    // Reset game state
+                    gameStarted = false
+                    gameFinished = false
+                    message = "Press Start to begin!"
                 }) {
-                    Text("Start Game")
+                    Text("Close")
                 }
             } else {
-                Box(
-                    modifier = Modifier
-                        .size(200.dp)
-                        .background(boxColor)
-                        .clickable {
-                            if (!readyToTap) {
-                                message = "Too early! You lose."
-                                onLoss()
-                                gameStarted = false
-                            } else {
-                                val reactionTime = System.currentTimeMillis() - startTime
-                                val seconds = reactionTime / 1000f
-                                if (seconds < 0.01f) {
-                                    message = "Too fast! Did you cheat?"
-                                    onLoss()
-                                } else if (seconds <= 0.5f) {
-                                    message = "You win! Reaction time: ${"%.3f".format(seconds)}s"
-                                    onWin()
+                if (!gameStarted) {
+                    Button(onClick = {
+                        gameStarted = true
+                        message = "Wait for green..."
+                        boxColor = Color.Red
+                        readyToTap = false
+                        startTimer = true
+                    }) {
+                        Text("Start Game")
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .size(200.dp)
+                            .background(boxColor)
+                            .clickable {
+                                if (!readyToTap) {
+                                    message = "You pressed too early! You lose."
+                                    lastResultWasWin = false
+                                    gameFinished = true
                                 } else {
-                                    message = "Too slow! You lose."
-                                    onLoss()
+                                    val reactionTime = System.currentTimeMillis() - startTime
+                                    val seconds = reactionTime / 1000f
+                                    when {
+                                        seconds < 0.01f -> {
+                                            message = "Whoa! Too fast, maybe cheating? You lose."
+                                            lastResultWasWin = false
+                                        }
+                                        seconds <= 0.5f -> {
+                                            message = "You pressed in time! Reaction: ${"%.3f".format(seconds)}s. You win!"
+                                            lastResultWasWin = true
+                                        }
+                                        else -> {
+                                            message = "You pressed too late! Reaction: ${"%.3f".format(seconds)}s. You lose."
+                                            lastResultWasWin = false
+                                        }
+                                    }
+                                    gameFinished = true
                                 }
-                                gameStarted = false
                             }
-                        }
-                )
+                    )
+                }
             }
         }
     }
