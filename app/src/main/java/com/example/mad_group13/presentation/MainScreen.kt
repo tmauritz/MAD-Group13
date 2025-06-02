@@ -1,8 +1,8 @@
 package com.example.mad_group13.presentation
 
-import android.content.res.Resources.Theme
+import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -30,12 +31,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
-import com.example.mad_group13.logic.nutrition.BasicSnack
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 import com.example.mad_group13.presentation.viewModel.StockViewModel
 import kotlinx.coroutines.delay
@@ -119,19 +118,38 @@ fun MainScreen(
                         .fillMaxWidth()
                         .padding(innerPadding)
                 ) {
-                    Button(
-                        onClick = { petStateViewModel.fullRestoreActivePet() }
-                    ) {
-                        Text("FREE REAL ESTATE")
-                    }
-                    Button(
-                        onClick = {
-                            //TODO
+                    Image(
+                        painter = painterResource(id = R.drawable.icons_heal),
+                        contentDescription = "Ding ding di-di-ding!!",
+                        modifier = Modifier
+                            .width(70.dp)
+                            .clickable {
+                            petStateViewModel.fullRestoreActivePet()
                         }
-                    ) {
-                        Text(stringResource(R.string.label_minigames))
-                    }
-                    Column(
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.icons_snack),
+                        contentDescription = "Such a snack!",
+                        modifier = Modifier
+                            .width(70.dp)
+                            .clickable {
+                                Log.i("MAD_MainScreen_image", "Se snack hath been clicked")
+                            }
+                    )
+
+                    Image(
+                        painter = painterResource(id = R.drawable.icons_minigames),
+                        contentDescription = "Let's playyy",
+                        modifier = Modifier
+                            .width(70.dp)
+                            .clickable {
+                                // TODO: add games here
+                                Log.i("MAD_MainScreen_image", "Minigames")
+                            }
+                    )
+
+                    // Debug stocks:
+                    /*Column(
                         horizontalAlignment = Alignment.End,
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier.padding(end = 12.dp)
@@ -141,14 +159,15 @@ fun MainScreen(
                             onClick = { stockViewModel.fetchTeslaStock() },
                             modifier = Modifier.padding(top = 4.dp)
                         ) {
-                            Text("GET STOCKS")
+                            Text("STOCKS")
                         }
-                    }
+                    }*/
                 }
 
                 Text(
                     text = activePet.nickname,
-                    modifier = modifier.padding(top = 10.dp)
+                    modifier = modifier
+                        .padding(top = 10.dp)
                         .align(Alignment.CenterHorizontally)
                 )
             }
