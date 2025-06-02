@@ -248,27 +248,27 @@ fun MainScreen(
                                 .fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Choose a Minigame")
+                            stringResource(R.string.minigame_choose)
                             Spacer(modifier = Modifier.height(16.dp))
                             Button(onClick = {
                                 activeMinigame = MinigameSelector.NUMBERGUESS
                                 showMinigameSelection = false
                             }) {
-                                Text("Number Guessing Game")
+                                stringResource(R.string.minigame_number_guess)
                             }
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(onClick = {
                                 activeMinigame = MinigameSelector.REACTION
                                 showMinigameSelection = false
                             }) {
-                                Text("Reaction Game")
+                                stringResource(R.string.minigame_reaction)
                             }
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(onClick = {
                                 activeMinigame = MinigameSelector.MEMORY
                                 showMinigameSelection = false
                             }) {
-                                Text("Memory Game")
+                                stringResource(R.string.minigame_memory)
                             }
                         }
                     }

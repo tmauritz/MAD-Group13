@@ -10,7 +10,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.mad_group13.R
 import kotlinx.coroutines.delay
 
 @Composable
@@ -18,10 +21,11 @@ fun ReactionGame(
     onWin: () -> Unit,
     onLoss: () -> Unit
 ) {
+    val context = LocalContext.current
     var boxColor by remember { mutableStateOf(Color.Red) }
     var gameStarted by remember { mutableStateOf(false) }
     var readyToTap by remember { mutableStateOf(false) }
-    var message by remember { mutableStateOf("Press Start to begin!") }
+    var message by remember { mutableStateOf(context.getString(R.string.reaction_start_message)) }
     var startTime by remember { mutableStateOf(0L) }
     var startTimer by remember { mutableStateOf(false) }
     var gameFinished by remember { mutableStateOf(false) }
@@ -32,7 +36,7 @@ fun ReactionGame(
             delay(3000)
             boxColor = Color.Green
             readyToTap = true
-            message = "Tap now!"
+            message = context.getString(R.string.reaction_tap_now)
             startTime = System.currentTimeMillis()
             startTimer = false
         }
@@ -60,20 +64,20 @@ fun ReactionGame(
                     // Reset game state
                     gameStarted = false
                     gameFinished = false
-                    message = "Press Start to begin!"
+                    message = context.getString(R.string.reaction_start_message)
                 }) {
-                    Text("Close")
+                    Text(stringResource(R.string.reaction_close_button))
                 }
             } else {
                 if (!gameStarted) {
                     Button(onClick = {
                         gameStarted = true
-                        message = "Wait for green..."
+                        message = context.getString(R.string.reaction_wait_green)
                         boxColor = Color.Red
                         readyToTap = false
                         startTimer = true
                     }) {
-                        Text("Start Game")
+                        Text(stringResource(R.string.reaction_start_button))
                     }
                 } else {
                     Box(
@@ -82,7 +86,7 @@ fun ReactionGame(
                             .background(boxColor)
                             .clickable {
                                 if (!readyToTap) {
-                                    message = "You pressed too early! You lose."
+                                    message = context.getString(R.string.reaction_too_early)
                                     lastResultWasWin = false
                                     gameFinished = true
                                 } else {
@@ -90,15 +94,15 @@ fun ReactionGame(
                                     val seconds = reactionTime / 1000f
                                     when {
                                         seconds < 0.01f -> {
-                                            message = "Whoa! Too fast, maybe cheating? You lose."
+                                            message = context.getString(R.string.reaction_too_fast)
                                             lastResultWasWin = false
                                         }
                                         seconds <= 0.5f -> {
-                                            message = "You pressed in time! Reaction: ${"%.3f".format(seconds)}s. You win!"
+                                            message = context.getString(R.string.reaction_in_time, seconds)
                                             lastResultWasWin = true
                                         }
                                         else -> {
-                                            message = "You pressed too late! Reaction: ${"%.3f".format(seconds)}s. You lose."
+                                            message = context.getString(R.string.reaction_too_late, seconds)
                                             lastResultWasWin = false
                                         }
                                     }

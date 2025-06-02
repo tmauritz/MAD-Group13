@@ -16,4 +16,25 @@
     <string name="history_pet_summary">" %1$s wurde %2$.0f alt, und war schlussendlich %3$.0f%% fröhlich, %4$.0f%% hungrig und %5$.0f%% aktiv."</string>
     <string name="label_minigames">Minispiele</string>
     <string name="button_retire">Retire Pet</string>
+    <string name="reaction_start_message">Drücke Start, um zu beginnen!</string>
+    <string name="reaction_wait_green">Warte auf Grün...</string>
+    <string name="reaction_tap_now">Jetzt tippen!</string>
+    <string name="reaction_start_button">Spiel starten</string>
+    <string name="reaction_too_early">Zu früh gedrückt! Du verlierst.</string>
+    <string name="reaction_too_fast">Whoa! Zu schnell, hast du geschummelt? Du verlierst.</string>
+    <string name="reaction_in_time">Rechtzeitig gedrückt! Reaktionszeit: %1$.3fs. Du gewinnst!</string>
+    <string name="reaction_too_late">Zu spät gedrückt! Reaktionszeit: %1$.3fs. Du verlierst.</string>
+    <string name="reaction_close_button">Schließen</string>
+    <string name="minigame_choose">Wähle ein Minispiel</string>
+    <string name="minigame_number_guess">Zahlenratespiel</string>
+    <string name="minigame_reaction">Reaktionsspiel</string>
+    <string name="minigame_memory">Memory-Spiel</string>
+    <string name="nickname_dialog_title">Gib deinem Haustier einen Spitznamen</string>
+    <string name="nickname_field_label">Spitzname</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="dead_pet_retired">Du hast dein Haustier %1$s in Rente geschickt</string>
+    <string name="dead_pet_dead">%1$s ist tot</string>
+    <string name="dead_pet_start_new">Ein neues Leben beginnen?</string>
+    <string name="button_start_new_life">Ein neues Leben beginnen</string>
 </resources>
