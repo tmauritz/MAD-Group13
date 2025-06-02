@@ -47,6 +47,7 @@ import com.example.mad_group13.logic.Constants
 import com.example.mad_group13.presentation.minigame.MinigameSelector
 import com.example.mad_group13.presentation.minigame.NumberGuessingGame
 import com.example.mad_group13.presentation.minigame.ReactionGame
+import com.example.mad_group13.presentation.minigame.numberguess.NumberGuessViewModel
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 import com.example.mad_group13.presentation.viewModel.StockViewModel
 import kotlinx.coroutines.delay
@@ -220,7 +221,14 @@ fun MainScreen(
                     activeMinigame = MinigameSelector.NONE
                 }
                 when (activeMinigame) {
-                    MinigameSelector.NUMBERGUESS -> NumberGuessingGame(onWin, onLoss)
+                    MinigameSelector.NUMBERGUESS -> {
+                        //minigame needs to be reset every time it's called
+                        val viewModel: NumberGuessViewModel = hiltViewModel()
+                        LaunchedEffect(key1 = activeMinigame) {
+                            viewModel.resetMinigame()
+                        }
+                        NumberGuessingGame(onWin, onLoss, numberGuessViewModel = viewModel)
+                    }
                     MinigameSelector.REACTION -> ReactionGame(onWin, onLoss)
                     MinigameSelector.MEMORY -> {}
                     MinigameSelector.NONE -> {}
