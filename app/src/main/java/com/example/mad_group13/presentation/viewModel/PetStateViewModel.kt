@@ -91,8 +91,7 @@ class PetStateViewModel @Inject constructor(
     }
 
     fun changePetNickname(newName: String) {
-        // TODO: save pet-name
-        println("Pet's new nickname is: $newName") // placeholder
+        _petState.update { pet -> pet.copy(nickname = newName) }
     }
 
     fun retirePetAndStartNew(){
@@ -110,18 +109,6 @@ class PetStateViewModel @Inject constructor(
             activity = 1f,
             lastChecked = System.currentTimeMillis()
             )
-        }
-    }
-
-    fun checkIfPetIsDead() {
-        if (_petState.value.health <= 0f ||
-            _petState.value.hunger <= 0f ||
-            _petState.value.age >= Constants.PET_MATURITY_DEATH ||
-            _petState.value.sickness == true && _petState.value.lastChecked - _petState.value.sicknessTimestamp > Constants.ONE_DAY * 2) {
-            viewModelScope.launch {
-                Log.i("MAD_Pet_Death", "Pet ${_petState.value.id} has died.")
-                retirePetAndStartNew()
-            }
         }
     }
 
@@ -221,7 +208,13 @@ class PetStateViewModel @Inject constructor(
             lastChecked = nowMillis
             )
         }
-        checkIfPetIsDead()
+    }
+
+    fun increaseActivity(amount: Float) {
+        _petState.update { pet -> pet.copy(
+                activity = pet.activity + amount
+            )
+        }
     }
 
 }

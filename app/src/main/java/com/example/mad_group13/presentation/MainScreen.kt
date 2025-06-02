@@ -35,6 +35,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
+import com.example.mad_group13.logic.Constants
+import com.example.mad_group13.presentation.minigame.MinigameSelector
+import com.example.mad_group13.presentation.minigame.NumberGuessingGame
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
 import com.example.mad_group13.presentation.viewModel.StockViewModel
 import kotlinx.coroutines.delay
@@ -74,6 +77,8 @@ fun MainScreen(
     var showNicknameDialog by remember { mutableStateOf(false) }
     var showFoodMenu by remember { mutableStateOf(false) }
     var isFeeding by remember { mutableStateOf(false) }
+    var activeMinigame by remember { mutableStateOf(MinigameSelector.NONE) }
+    var showRetireDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -83,7 +88,7 @@ fun MainScreen(
                     MainMenu(
                         mainMenuItems = listOf(
                             MainMenuItem(stringResource(R.string.button_history), onNavigatePetHistory),
-                            MainMenuItem(stringResource(R.string.button_retire), {petStateViewModel.retirePetAndStartNew()}) //TODO: popup etc.
+                            MainMenuItem(stringResource(R.string.button_retire), {showRetireDialog = true})
                             )
                     )
                 }
@@ -91,11 +96,11 @@ fun MainScreen(
         }
 
     ) { innerPadding ->
-        Box (
+        Box(
             modifier = modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-        ){
+        ) {
             Image(
                 painter = painterResource(id = petStateViewModel.getDrawableID()),
                 contentDescription = "A pretty diamond!",
@@ -105,11 +110,11 @@ fun MainScreen(
 
             )
         }
-        Column (
-            modifier =  Modifier.fillMaxSize(),
+        Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
-            ) {
+        ) {
             Column {
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
@@ -143,6 +148,7 @@ fun MainScreen(
                         modifier = Modifier
                             .width(70.dp)
                             .clickable {
+                                activeMinigame = MinigameSelector.NUMBERGUESS
                                 // TODO: add games here
                                 Log.i("MAD_MainScreen_image", "Minigames")
                             }
@@ -205,8 +211,29 @@ fun MainScreen(
                     }
                 }
             }
-
         }
+
+        if(activeMinigame != MinigameSelector.NONE) {
+            Dialog(onDismissRequest = { activeMinigame = MinigameSelector.NONE }) {
+                val onWin = {
+                    petStateViewModel.increaseHappinessBy(.2f)
+                    petStateViewModel.increaseActivity(.2f)
+                    activeMinigame = MinigameSelector.NONE
+                }
+                val onLoss = {
+                    petStateViewModel.reduceHappinessBy(.2f)
+                    petStateViewModel.increaseActivity(.2f)
+                    activeMinigame = MinigameSelector.NONE
+                }
+                when (activeMinigame) {
+                    MinigameSelector.NUMBERGUESS -> NumberGuessingGame(onWin, onLoss)
+                    MinigameSelector.REACTION -> {}
+                    MinigameSelector.MEMORY -> {}
+                    MinigameSelector.NONE -> {}
+                }
+            }
+        }
+
         if (showNicknameDialog) {
             NicknameDialog(
                 onDismiss = { showNicknameDialog = false },
@@ -233,6 +260,28 @@ fun MainScreen(
                 delay(2000)
                 isFeeding = false
             }
+        }
+
+        if (activePet.health <= 0f ||
+                activePet.hunger <= 0f ||
+                activePet.age >= Constants.PET_MATURITY_DEATH ||
+                activePet.sickness == true && activePet.lastChecked - activePet.sicknessTimestamp > Constants.ONE_DAY * 2) {
+            DeadPetDialog(
+                petName = activePet.nickname,
+                onStartNewLife = {
+                    petStateViewModel.retirePetAndStartNew()
+                }, false
+            )
+        }
+
+        if (showRetireDialog) {
+            DeadPetDialog(
+                petName = activePet.nickname,
+                onStartNewLife = {
+                    petStateViewModel.retirePetAndStartNew()
+                    showRetireDialog = false
+                }, true
+            )
         }
 
     }

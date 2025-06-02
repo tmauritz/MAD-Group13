@@ -6,7 +6,7 @@
     <string name="button_feed">Füttern</string>
     <string name="button_play">Spielen</string>
     <string name="button_back">Zurück</string>
-    <string name="label_food_hunger">+%1$d% Hunger</string>
+    <string name="label_food_hunger">+%1$d%% Hunger</string>
     <string name="label_history">Steinbruch</string>
     <string name="label_stat_health">Gesundheit</string>
     <string name="label_stat_hunger">Hunger</string>

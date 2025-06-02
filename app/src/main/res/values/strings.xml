@@ -5,7 +5,7 @@
     <string name="button_history">History</string>
     <string name="button_nickname">Nickname</string>
     <string name="button_back">Back</string>
-    <string name="label_food_hunger">+%1$d% Hunger</string>
+    <string name="label_food_hunger">+%1$d%% Hunger</string>
     <string name="label_history">The Rubble Pit</string>
     <string name="label_stat_health">Health</string>
     <string name="label_stat_hunger">Hunger</string>
