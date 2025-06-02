@@ -19,7 +19,7 @@ object AlarmScheduler {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 9)  // z.B. jeden Tag um 9 Uhr morgens
+            set(Calendar.HOUR_OF_DAY, 9)  // every day at 9 a.m.
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }

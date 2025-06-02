@@ -69,6 +69,7 @@ fun MainScreen(
             } else {
                 petStateViewModel.increaseHappinessBy(-percentageChange / 100f)
             }
+            Log.i("MainScreen", "Applying happiness change: $percentageChange")
         }
     }
 

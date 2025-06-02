@@ -6,12 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [Pet::class],
-    version = 7,
+    entities = [Pet::class, TeslaStock::class],
+    version = 8,
     exportSchema = false
 )
 abstract class PetDB: RoomDatabase(){
     abstract val petDao: PetDao
+    abstract val teslaStockDao: TeslaStockDao
 
     // declare as singleton - companion objects are like static variables in Java
     companion object {
