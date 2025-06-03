@@ -46,6 +46,12 @@
     <string name="minigame_number_loss">You lose...</string>
     <string name="minigame_number_correct_digits">Digits: %1$d</string>
     <string name="minigame_number_correct_positions">Positions: %1$d</string>
+    <string name="minigame_memory_title">Find the 6 pairs!</string>
+    <string name="minigame_memory_win">You did it!!</string>
+    <string name="sick_true_title">Your pet was sick!</string>
+    <string name="sick_true_text">But now it\'s healthy :)</string>
+    <string name="sick_false_title">Your pet was not sick!</string>
+    <string name="sick_false_text">It\'s still healthy.</string>
 
     <string name="did_you_know">Did you know…\n</string>
     <string name="daily_message_1">Fun Fact: Diamonds are forever. So is your pet’s emotional damage if you forget to feed it.</string>

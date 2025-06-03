@@ -94,6 +94,7 @@ fun MainScreen(
     var activeMinigame by remember { mutableStateOf(MinigameSelector.NONE) }
     var showRetireDialog by remember { mutableStateOf(false) }
     var showMinigameSelection by remember { mutableStateOf(false) }
+    var showSicknessDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -168,6 +169,7 @@ fun MainScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = modifier
                         .fillMaxWidth()
+                        .padding(bottom = 10.dp)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.icons_heal),
@@ -175,8 +177,7 @@ fun MainScreen(
                         modifier = Modifier
                             .width(70.dp)
                             .clickable {
-                                petStateViewModel.fullRestoreActivePet()
-                                petStateViewModel.setSickness(false)
+                                showSicknessDialog = true
                             }
                     )
                     Image(
@@ -185,16 +186,9 @@ fun MainScreen(
                         modifier = Modifier
                             .width(70.dp)
                             .clickable {
-                                Log.i("MAD_MainScreen_image", "Se snack hath been clicked")
-                                petStateViewModel.destroyActivity()
+                                showFoodMenu = true
                             }
                     )
-                    Button(
-                        onClick = { showFoodMenu = true }  //onNavigateToFoodMenu
-                    ) {
-                        Text(stringResource(R.string.button_feed))
-                    }
-
                     Image(
                         painter = painterResource(id = R.drawable.icons_minigames),
                         contentDescription = "Let's playyy",
@@ -206,7 +200,7 @@ fun MainScreen(
                     )
 
                     // Debug stocks:
-                    Column(
+                    /*Column(
                         horizontalAlignment = Alignment.End,
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier.padding(end = 12.dp)
@@ -218,7 +212,7 @@ fun MainScreen(
                         ) {
                             Text("STOCKS")
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -245,7 +239,7 @@ fun MainScreen(
                         NumberGuessingGame(onWin, onLoss, numberGuessViewModel = viewModel)
                     }
                     MinigameSelector.REACTION -> ReactionGame(onWin, onLoss)
-                    MinigameSelector.MEMORY -> MemoryGame(onWin, onLoss)
+                    MinigameSelector.MEMORY -> MemoryGame(onWin)
                     MinigameSelector.NONE -> {}
                 }
             }
@@ -298,7 +292,13 @@ fun MainScreen(
             }
         }
 
-
+        if (showSicknessDialog) {
+            SicknessDialog(
+                activePet.sickness,
+                onDismiss = { showSicknessDialog = false }
+                )
+            petStateViewModel.setSickness(false)
+        }
 
         if (showNicknameDialog) {
             NicknameDialog(

@@ -123,7 +123,7 @@ class PetStateViewModel @Inject constructor(
     fun getDrawableID(): Int {
         return when(petState.value.type) {
             0 -> R.drawable.dia_0_baby
-            1 -> R.drawable.dia_1_teen    // TODO: Add more artwork :B
+            1 -> R.drawable.dia_1_teen
             2 -> R.drawable.dia_2_adult
             3 -> R.drawable.dia_20_purple
             4 -> R.drawable.dia_2_adult_2

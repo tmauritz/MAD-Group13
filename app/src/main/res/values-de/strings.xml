@@ -47,6 +47,13 @@
     <string name="minigame_number_loss">Leider verloren...</string>
     <string name="minigame_number_correct_digits">Ziffern: %1$d</string>
     <string name="minigame_number_correct_positions">Positionen: %1$d</string>
+    <string name="minigame_memory_title">Finde die 6 Paare!</string>
+    <string name="minigame_memory_win">Du hast es geschafft!!</string>
+    <string name="sick_true_title">Dein Haustier war krank!</string>
+    <string name="sick_true_text">Aber jetzt ist es wieder gesund :)</string>
+    <string name="sick_false_title">Dein Haustier war nicht krank!</string>
+    <string name="sick_false_text">Es ist immer noch gesund.</string>
+
 
     <string name="did_you_know">Wusstest du schon…\n</string>
     <string name="daily_message_1">Fun Fact: Diamanten sind für die Ewigkeit. Genau wie der seelische Schaden deines Haustiers, wenn du vergisst, es zu füttern.</string>

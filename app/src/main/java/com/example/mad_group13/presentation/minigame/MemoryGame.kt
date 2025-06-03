@@ -2,16 +2,17 @@ package com.example.mad_group13.presentation.minigame
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,17 +20,17 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mad_group13.R
 
 @Composable
-fun MemoryGame(onWin: ()-> Unit, onLoss: ()->Unit) {
-    var cardList = mutableListOf(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6)
-    cardList.shuffle()
+fun MemoryGame(onWin: ()-> Unit) {
+    val cardList = remember { mutableStateListOf(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6).also {it.shuffle()} }
     val selectedCards = remember { mutableStateListOf<Int>() }
+    val finishedMatches = remember { mutableStateListOf<Int>() }
     var count = 0
 
     Card() {
@@ -40,7 +41,7 @@ fun MemoryGame(onWin: ()-> Unit, onLoss: ()->Unit) {
                 .padding(20.dp)
         ) {
             Text(
-                text = "Find the 6 pairs!",
+                text = stringResource(R.string.minigame_memory_title),
                 modifier = Modifier.padding(bottom = 20.dp)
             )
             LazyVerticalGrid(
@@ -48,19 +49,40 @@ fun MemoryGame(onWin: ()-> Unit, onLoss: ()->Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                items(cardList) { cardType ->
-                    val isSelected = cardType in selectedCards
+                items(
+                    count = cardList.size
+                ) { index ->
+                    val isSelected = index in selectedCards
+                    val isFinished = index in finishedMatches
 
                     MemoryCard(
-                        cardType,
+                        cardList[index],
                         isSelected = isSelected,
+                        isFinished = isFinished,
                         onSelect = {
+                            if (selectedCards.size == 2) selectedCards.clear()
                             if (isSelected) {
-                                selectedCards.remove(cardType)
+                                selectedCards.remove(index)
                             } else if (selectedCards.size < 2) {
-                                selectedCards.add(cardType)
+                                selectedCards.add(index)
+                                if (selectedCards.size == 2 && cardList[selectedCards[0]] == cardList[selectedCards[1]]) {
+                                    finishedMatches.addAll(selectedCards)
+                                    selectedCards.clear()
+                                }
                             }}
                     )
+                }
+            }
+            if (finishedMatches.size == cardList.size) {
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Text(stringResource(R.string.minigame_memory_win))
+                    Button(
+                        onClick = onWin
+                    ) { Text("Yay!") }
                 }
             }
         }
@@ -71,13 +93,14 @@ fun MemoryGame(onWin: ()-> Unit, onLoss: ()->Unit) {
 fun MemoryCard(
     cardType: Int,
     isSelected: Boolean,
+    isFinished: Boolean,
     onSelect: () -> Unit
 ) {
     Card (
         modifier = Modifier
             .padding(5.dp)
             .clickable {
-                onSelect
+                onSelect()
                 Log.i("MAD_MemoryGame", "Card has been clicked")
             },
     ) {
@@ -85,24 +108,13 @@ fun MemoryCard(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
-            if (isSelected) {
-                Image(
-                    painter = painterResource(id = getDrawable(cardType)),
-                    contentDescription = "I'm a card!",
-                    modifier = Modifier
-                        .width(85.dp)
+            Image(
+                painter = painterResource(id = getDrawable(if (isSelected || isFinished) cardType else 0)),
+                contentDescription = "I'm a card!",
+                modifier = Modifier
+                    .width(85.dp)
 
-                )
-            }
-            else {
-                Image(
-                    painter = painterResource(id = getDrawable(0)),
-                    contentDescription = "I'm a card!",
-                    modifier = Modifier
-                        .width(85.dp)
-
-                )
-            }
+            )
         }
     }
 }
@@ -123,5 +135,5 @@ private fun getDrawable(cardType: Int): Int {
 @Preview(name="MemoryPreview")
 @Composable
 fun MemoryGamePreview(){
-    MemoryGame({}, {})
+    MemoryGame({})
 }

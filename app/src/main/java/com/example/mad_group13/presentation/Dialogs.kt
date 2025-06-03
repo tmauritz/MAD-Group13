@@ -57,3 +57,17 @@ fun DeadPetDialog(petName: String, onStartNewLife: () -> Unit, ifButtonCheck: Bo
         }
     )
 }
+
+@Composable
+fun SicknessDialog(sick: Boolean, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = {},
+        title = { Text(stringResource(if (sick) R.string.sick_true_title else R.string.sick_false_title)) },
+        text = { Text(stringResource(if (sick) R.string.sick_true_text else R.string.sick_false_text)) },
+        confirmButton = {
+            Button(onClick = onDismiss) {
+                Text(stringResource(R.string.button_ok))
+            }
+        }
+    )
+}
