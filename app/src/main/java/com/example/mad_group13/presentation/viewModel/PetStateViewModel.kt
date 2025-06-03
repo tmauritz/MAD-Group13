@@ -159,12 +159,36 @@ class PetStateViewModel @Inject constructor(
         }
     }
 
-    private fun setSickness() {
+    fun setSickness(sick: Boolean) {
         _petState.update { pet -> pet.copy(
-            sickness = true,
+            sickness = sick,
             sicknessTimestamp = System.currentTimeMillis()
-        )
+        ) }
+    }
+
+    private fun checkActivity() {
+        if (_petState.value.activity <= 0.2f && _petState.value.activityTimestamp == 0L) {
+            _petState.update { pet -> pet.copy( activityTimestamp = System.currentTimeMillis() ) }
+            Log.i("MAD_Pet_ActivityUpdate", "Activity's bad. New timestamp: " + _petState.value.activityTimestamp)
+        } else if (_petState.value.activity <= 0.2f && System.currentTimeMillis() - _petState.value.activityTimestamp >= Constants.ONE_DAY * 2 ) {
+            setSickness(true)
+            Log.i("MAD_Pet_ActivityUpdate", "Activity's VERY bad.")
+        } else if (_petState.value.activity > 0.2f && _petState.value.activityTimestamp != 0L) {
+            _petState.update { pet -> pet.copy( activityTimestamp = 0L ) }
+            Log.i("MAD_Pet_ActivityUpdate", "Activity's fine again :)")
         }
+    }
+
+    fun deathCondition(): Boolean {
+        return  _petState.value.health <= 0f ||
+                _petState.value.hunger <= 0f ||
+                _petState.value.age >= Constants.PET_MATURITY_DEATH ||
+                _petState.value.sickness && System.currentTimeMillis() - _petState.value.sicknessTimestamp > Constants.ONE_DAY * 2
+    }
+
+    // Debug
+    fun destroyActivity(){
+        _petState.update { pet -> pet.copy( activity = 0f ) }
     }
 
     fun updatePetState(waitForTimeInterval: Boolean = true){
@@ -182,13 +206,15 @@ class PetStateViewModel @Inject constructor(
         // update maturity, if applicable
         if (_petState.value.maturity < PetMaturity.ADULT) { updatePetMaturity(updatedAge) }
         // random chance for pet to get sick
-        if ((0..100).random() < 10) { setSickness() }
+        if ((0..100).random() < 10) { setSickness(true) }
 
         val relativeHungerLoss = Constants.PET_HUNGER_LOSS_PER_INTERVAL * (timeDiffMillis / Constants.UPDATE_INTERVAL_MS)
         val relativeActivityLoss = Constants.PET_ACTIVITY_LOSS_PER_INTERVAL *  (timeDiffMillis / Constants.UPDATE_INTERVAL_MS)
         // update hunger and Activity
         val updatedHunger = max(_petState.value.hunger - relativeHungerLoss , 0f)
         val updatedActivity = max(_petState.value.activity - relativeActivityLoss,0f)
+        // check if activity is lower than 20%
+        checkActivity()
         // calculate health loss if hunger is at 0
         // find time interval where health loss starts
         val timeIntervalsUntilEmptyHunger = _petState.value.hunger / Constants.PET_HUNGER_LOSS_PER_INTERVAL

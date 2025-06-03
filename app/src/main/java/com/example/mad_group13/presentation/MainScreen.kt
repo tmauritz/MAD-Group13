@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -115,13 +116,23 @@ fun MainScreen(
                 .fillMaxSize(),
         ) {
             Image(
-                painter = painterResource(id = petStateViewModel.getDrawableID()),
-                contentDescription = "A pretty diamond!",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.Center)
+                    painter = painterResource(id = petStateViewModel.getDrawableID()),
+            contentDescription = "A pretty diamond!",
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center)
 
             )
+            if (activePet.sickness) {
+                Image(
+                    painter = painterResource(id = R.drawable.icons_sick),
+                    contentDescription = "Oh no, baby is sick",
+                    modifier = Modifier
+                        .offset(x = 30.dp, y = 130.dp)
+
+
+                )
+            }
         }
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -164,6 +175,7 @@ fun MainScreen(
                             .width(70.dp)
                             .clickable {
                                 petStateViewModel.fullRestoreActivePet()
+                                petStateViewModel.setSickness(false)
                             }
                     )
                     Image(
@@ -173,6 +185,7 @@ fun MainScreen(
                             .width(70.dp)
                             .clickable {
                                 Log.i("MAD_MainScreen_image", "Se snack hath been clicked")
+                                petStateViewModel.destroyActivity()
                             }
                     )
                     Button(
@@ -314,10 +327,7 @@ fun MainScreen(
             }
         }
 
-        if (activePet.health <= 0f ||
-                activePet.hunger <= 0f ||
-                activePet.age >= Constants.PET_MATURITY_DEATH ||
-                activePet.sickness == true && activePet.lastChecked - activePet.sicknessTimestamp > Constants.ONE_DAY * 2) {
+        if (petStateViewModel.deathCondition()) {
             DeadPetDialog(
                 petName = activePet.nickname,
                 onStartNewLife = {

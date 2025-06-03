@@ -12,12 +12,13 @@ data class Pet( //CHANGING ANYTHING HERE MEANS INCREMENTING VERSION NUMBER IN Pe
     val age: Float = 0f,
     val type: Int = 0,
     val sickness: Boolean = false,
-    val sicknessTimestamp: Long = 0,
+    val sicknessTimestamp: Long = 0L,
     val lastChecked: Long = System.currentTimeMillis(),
     var health: Float = 1f,
     var happiness: Float = 0.5f,
     var hunger: Float = 0.2f,
     var activity: Float = 0.5f,
+    val activityTimestamp: Long = 0L
     ){
     init {
         // Coerce initial values to keep between 0 and 100%
@@ -38,6 +39,7 @@ fun getPetName(): String = listOf(
     "Sir Sparkalot",
     "Facetious",
     "Shardi B",
-    "Opal Winfrey"
+    "Opal Winfrey",
+    "Mistress Sparklebutt"
 ).shuffled().first()
 
