@@ -2,7 +2,7 @@ package com.example.mad_group13.data
 
 import android.content.Context
 import android.util.Log
-import com.example.mad_group13.util.WidgetUpdater
+import com.example.mad_group13.widget.WidgetUpdater
 import javax.inject.Inject
 import kotlin.random.Random
 

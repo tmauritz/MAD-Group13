@@ -1,4 +1,4 @@
-package com.example.mad_group13.presentation
+package com.example.mad_group13.widget
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider

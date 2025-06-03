@@ -30,7 +30,7 @@
 
         <!-- Tesla Alarm BroadcastReceiver -->
         <receiver android:name=".model.TeslaAlarmReceiver" />
-        <receiver android:name=".presentation.PetStatsWidgetProvider"
+        <receiver android:name=".widget.PetStatsWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
