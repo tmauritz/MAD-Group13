@@ -1,10 +1,9 @@
-package com.example.mad_group13.util
+package com.example.mad_group13.widget
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import com.example.mad_group13.presentation.PetStatsWidgetProvider
 
 object WidgetUpdater {
     fun updatePetStatsWidget(context: Context) {
