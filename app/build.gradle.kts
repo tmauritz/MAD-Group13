@@ -47,12 +47,9 @@ android {
 }
 
 dependencies {
-    // Glance AppWidget support
-    implementation(libs.androidx.glance.appwidget.v111)
-    // Glance Material 3 interop
-    implementation(libs.androidx.glance.material3.v111)
-    // Glance Material 2 interop
-    implementation(libs.androidx.glance.material.v111)
+    //Glance Widgets
+    implementation(libs.glance.appwidget)
+    implementation(libs.glance.material)
 
     // Retrofit Core
     implementation(libs.retrofit.core)

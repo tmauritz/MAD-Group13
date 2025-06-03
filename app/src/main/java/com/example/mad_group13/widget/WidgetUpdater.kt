@@ -4,17 +4,24 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import androidx.glance.appwidget.GlanceAppWidgetManager
 
 object WidgetUpdater {
-    fun updatePetStatsWidget(context: Context) {
-        val intent = Intent(context, PetStatsWidgetProvider::class.java).apply {
-            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-
-            val ids = AppWidgetManager.getInstance(context)
-                .getAppWidgetIds(ComponentName(context, PetStatsWidgetProvider::class.java))
-
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+    suspend fun updateMyAdorableDiamondWidget(context: Context){
+        val manager = GlanceAppWidgetManager(context)
+        val widget = MyAdorableDiamondWidget()
+        val glanceIds = manager.getGlanceIds(widget.javaClass)
+//        val intent = Intent(context, MyAdorableDiamondWidget::class.java).apply {
+//            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+//
+//            val ids = AppWidgetManager.getInstance(context)
+//                .getAppWidgetIds(ComponentName(context, MyAdorableDiamondWidget::class.java))
+//
+//            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+//        }
+//        context.sendBroadcast(intent)
+        glanceIds.forEach { glanceId ->
+            widget.update(context, glanceId)
         }
-        context.sendBroadcast(intent)
     }
 }

@@ -32,18 +32,7 @@ class PetRepository @Inject constructor(
         } else {
             petDao.insertPet(pet)
         }
-
-        // Save values to SharedPreferences
-        val prefs = context.getSharedPreferences("pet_prefs", Context.MODE_PRIVATE)
-        prefs.edit()
-            .putInt("health", (pet.health * 100).toInt())
-            .putInt("hunger", (pet.hunger * 100).toInt())
-            .putInt("happiness", (pet.happiness * 100).toInt())
-            .putInt("activity", (pet.activity * 100).toInt())
-            .apply()
-
-        // After Update → Widget updating
-        WidgetUpdater.updatePetStatsWidget(context)
+        updateContext(pet)
     }
 
     suspend fun getNewPet(): Pet{
@@ -54,7 +43,22 @@ class PetRepository @Inject constructor(
         )
         // insert pet, then retrieve it again to get the auto-incremented index from the DB
         petDao.insertPet(newPet)
+        updateContext(newPet)
         return petDao.getAllPetsByIdDescending().first()
+    }
+
+    private suspend fun updateContext(pet: Pet){
+        // Save values to SharedPreferences
+        val prefs = context.getSharedPreferences("pet_prefs", Context.MODE_PRIVATE)
+        prefs.edit()
+            .putInt("health", (pet.health * 100).toInt())
+            .putInt("hunger", (pet.hunger * 100).toInt())
+            .putInt("happiness", (pet.happiness * 100).toInt())
+            .putInt("activity", (pet.activity * 100).toInt())
+            .apply()
+
+        //After Update -> Widget updating
+        WidgetUpdater.updateMyAdorableDiamondWidget(context)
     }
 
 }
