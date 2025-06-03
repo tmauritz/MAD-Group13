@@ -46,4 +46,17 @@
     <string name="minigame_number_loss">You lose...</string>
     <string name="minigame_number_correct_digits">Digits: %1$d</string>
     <string name="minigame_number_correct_positions">Positions: %1$d</string>
+
+    <string name="did_you_know">Did you know…\n</string>
+    <string name="daily_message_1">Fun Fact: Diamonds are forever. So is your pet’s emotional damage if you forget to feed it.</string>
+    <string name="daily_message_2">Daily Wisdom: Your diamond has more mood swings than your group chat. Respect that.</string>
+    <string name="daily_message_3">Reminder: You technically agreed to care for this digital diva. There’s no escape clause.</string>
+    <string name="daily_message_4">Your adorable diamond has 17 different ways to guilt-trip you. You’ve unlocked 6.</string>
+    <string name="daily_message_5">Self-care tip: Drink water. Sleep well. Don’t let your virtual gem spiral into chaos again.</string>
+    <string name="daily_message_6">Science says diamonds form under pressure. Yours forms drama under slight inconvenience.</string>
+    <string name="daily_message_7">Fun Fact: Ignoring your diamond is legally classified as emotional neglect in 37 imaginary countries.</string>
+    <string name="daily_message_8">Quote of the Day: ‘Why be normal when you can be sparkly and passive-aggressive?’ – Your Pet</string>
+    <string name="daily_message_9">Pro Tip: If your diamond starts blinking aggressively… run. Or feed it. Or both.</string>
+    <string name="daily_message_10">Every time you ignore your diamond, a glittery tantrum gains power.</string>
+
 </resources>

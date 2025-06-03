@@ -47,4 +47,17 @@
     <string name="minigame_number_loss">Leider verloren...</string>
     <string name="minigame_number_correct_digits">Ziffern: %1$d</string>
     <string name="minigame_number_correct_positions">Positionen: %1$d</string>
+
+    <string name="did_you_know">Wusstest du schon…\n</string>
+    <string name="daily_message_1">Fun Fact: Diamanten sind für die Ewigkeit. Genau wie der seelische Schaden deines Haustiers, wenn du vergisst, es zu füttern.</string>
+    <string name="daily_message_2">Tägliche Weisheit: Dein Diamant hat mehr Stimmungsschwankungen als dein Gruppenchat. Zeig Respekt.</string>
+    <string name="daily_message_3">Erinnerung: Du hast technisch gesehen zugestimmt, dich um diese digitale Diva zu kümmern. Es gibt keine Ausstiegsklausel.</string>
+    <string name="daily_message_4">Dein süßer Diamant kennt 17 verschiedene Methoden, dir ein schlechtes Gewissen zu machen. Du hast bereits 6 freigeschaltet.</string>
+    <string name="daily_message_5">Selfcare-Tipp: Trink Wasser. Schlaf genug. Lass deinen virtuellen Edelstein nicht wieder ins Chaos abdriften.</string>
+    <string name="daily_message_6">Die Wissenschaft sagt: Diamanten entstehen unter Druck. Deiner erzeugt Drama bei der kleinsten Unannehmlichkeit.</string>
+    <string name="daily_message_7">Fun Fact: Deinen Diamanten zu ignorieren gilt in 37 imaginären Ländern als emotionale Vernachlässigung.</string>
+    <string name="daily_message_8">Zitat des Tages: „Warum normal sein, wenn man glitzernd und passiv-aggressiv sein kann?“ – Dein Haustier</string>
+    <string name="daily_message_9">Profi-Tipp: Wenn dein Diamant aggressiv zu blinken beginnt… lauf. Oder füttere ihn. Oder beides.</string>
+    <string name="daily_message_10">Jedes Mal, wenn du deinen Diamanten ignorierst, gewinnt ein glitzernder Wutanfall an Kraft.</string>
+
 </resources>
