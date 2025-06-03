@@ -52,16 +52,37 @@ fun StartScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text ("My Adorable Diamond!")
         Text (
-            "My Adorable Diamond!"
+            text = "Did you know...\n" + getDailyMessage(),
+            modifier = modifier.padding(top = 16.dp)
         )
-        Button(onClick = onShowMainScreen) {
+        Button(
+            onClick = onShowMainScreen,
+            modifier = modifier.padding(top = 16.dp)
+        ) {
             Text (
-                "Enter"
+                "Ok"
             )
         }
     }
 
+}
+
+fun getDailyMessage(): String {
+    val messageList = listOf<String>(
+        "Fun Fact: Diamonds are forever. So is your pet’s emotional damage if you forget to feed it.",
+        "Daily Wisdom: Your diamond has more mood swings than your group chat. Respect that.",
+        "Reminder: You technically agreed to care for this digital diva. There’s no escape clause.",
+        "Your adorable diamond has 17 different ways to guilt-trip you. You’ve unlocked 6.",
+        "Self-care tip: Drink water. Sleep well. Don’t let your virtual gem spiral into chaos again.",
+        "Science says diamonds form under pressure. Yours forms drama under slight inconvenience.",
+        "Fun Fact: Ignoring your diamond is legally classified as emotional neglect in 37 imaginary countries.",
+        "Quote of the Day: ‘Why be normal when you can be sparkly and passive-aggressive?’ – Your Pet",
+        "Pro Tip: If your diamond starts blinking aggressively... run. Or feed it. Or both.",
+        "Every time you ignore your diamond, a glittery tantrum gains power."
+    )
+    return messageList.random()
 }
 
 @Preview(name = "MainScreenPreview")

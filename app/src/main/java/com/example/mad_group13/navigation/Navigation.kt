@@ -20,11 +20,13 @@ fun Navigation(modifier: Modifier = Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.MainScreen.route // !!change to StartScreen later!!
+        startDestination = Screen.StartScreen.route // TODO: !!change to StartScreen later!!
     ) {
         composable(route = Screen.StartScreen.route) {
             StartScreen(
-                onShowMainScreen = { navController.navigate(Screen.MainScreen.route)},
+                onShowMainScreen = { navController.navigate(Screen.MainScreen.route) {
+                    popUpTo(Screen.StartScreen.route) { inclusive = true }
+                } },
                 modifier = modifier
             )
         }
