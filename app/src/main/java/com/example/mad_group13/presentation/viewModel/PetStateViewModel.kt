@@ -126,7 +126,8 @@ class PetStateViewModel @Inject constructor(
             1 -> R.drawable.dia_1_teen    // TODO: Add more artwork :B
             2 -> R.drawable.dia_2_adult
             3 -> R.drawable.dia_20_purple
-            else -> R.drawable.dia_1_teen
+            4 -> R.drawable.dia_2_adult_2
+            else -> R.drawable.dia_2_adult
         }
     }
 
@@ -151,10 +152,11 @@ class PetStateViewModel @Inject constructor(
     }
 
     private fun setPetType() {
-        // TODO: Set values for specific types
-        if (petState.value.hunger <= 0.5 && petState.value.happiness >= 0.5) {
-            _petState.update { pet -> pet.copy(type = 1) }
-        } else {
+        if (petState.value.hunger > 0.5f && petState.value.happiness <= 0.3f) {
+            _petState.update { pet -> pet.copy(type = 4) }
+        } else if (petState.value.activity > 0.8f) {
+            _petState.update { pet -> pet.copy(type = 3) }
+        }else {
             _petState.update { pet -> pet.copy(type = 2) }
         }
     }

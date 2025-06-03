@@ -45,6 +45,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
 import com.example.mad_group13.logic.Constants
+import com.example.mad_group13.presentation.minigame.MemoryGame
 import com.example.mad_group13.presentation.minigame.MinigameSelector
 import com.example.mad_group13.presentation.minigame.NumberGuessingGame
 import com.example.mad_group13.presentation.minigame.ReactionGame
@@ -244,7 +245,7 @@ fun MainScreen(
                         NumberGuessingGame(onWin, onLoss, numberGuessViewModel = viewModel)
                     }
                     MinigameSelector.REACTION -> ReactionGame(onWin, onLoss)
-                    MinigameSelector.MEMORY -> {}
+                    MinigameSelector.MEMORY -> MemoryGame(onWin, onLoss)
                     MinigameSelector.NONE -> {}
                 }
             }
