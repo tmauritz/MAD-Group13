@@ -86,8 +86,6 @@ fun MainScreen(
         }
     }
 
-
-    //TODO: these don't belong here i guess? idk where to put them though
     var showNicknameDialog by remember { mutableStateOf(false) }
     var showFoodMenu by remember { mutableStateOf(false) }
     var isFeeding by remember { mutableStateOf(false) }
@@ -104,8 +102,10 @@ fun MainScreen(
                     MainMenu(
                         mainMenuItems = listOf(
                             MainMenuItem(stringResource(R.string.button_history), onNavigatePetHistory),
-                            MainMenuItem(stringResource(R.string.button_retire), {showRetireDialog = true})
-                            )
+                            MainMenuItem(stringResource(R.string.button_retire), {showRetireDialog = true}),
+                            MainMenuItem("DEMO - destroyActivity", {petStateViewModel.destroyActivity()}),
+                            MainMenuItem("DEMO - MedicineTrials",{petStateViewModel.setSickness(true)})
+                        )
                     )
                 }
             )

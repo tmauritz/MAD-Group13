@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -50,12 +51,13 @@ fun FoodMenuScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(stringResource(R.string.label_menu), modifier = Modifier.padding(bottom = 8.dp))
-            LazyColumn { items(foodItems){food -> Button(onClick = {
+            LazyColumn { items(foodItems){food -> OutlinedButton(onClick = {
                 when (food) {
                     is Snack -> petStateViewModel.feedPet(food)
                     else -> petStateViewModel.feedPet(food)
                 }
-            }) {
+            }, modifier = Modifier.fillMaxWidth()
+                ) {
                 Text(
                     "${food.name} (${
                         stringResource(
