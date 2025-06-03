@@ -57,6 +57,7 @@ class PetRepository @Inject constructor(
             .putInt("activity", (pet.activity * 100).toInt())
             .apply()
 
+        Log.i("PetRepository", "Saving Pet: ${pet.id}, H: ${pet.health}, Ha: ${pet.happiness}, Hu: ${pet.hunger}, A: ${pet.activity}")
         //After Update -> Widget updating
         WidgetUpdater.updateMyAdorableDiamondWidget(context)
     }

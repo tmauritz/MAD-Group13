@@ -104,7 +104,9 @@ fun MainScreen(
                             MainMenuItem(stringResource(R.string.button_history), onNavigatePetHistory),
                             MainMenuItem(stringResource(R.string.button_retire), {showRetireDialog = true}),
                             MainMenuItem("DEMO - destroyActivity", {petStateViewModel.destroyActivity()}),
-                            MainMenuItem("DEMO - MedicineTrials",{petStateViewModel.setSickness(true)})
+                            MainMenuItem("DEMO - MedicineTrials",{petStateViewModel.setSickness(true)}),
+                            MainMenuItem("DEMO - TeslaAlarm Check",{stockViewModel.applyFakePrice(360f)}),
+                            MainMenuItem("DEMO - Tesla Fake Price",{stockViewModel.setFakeTeslaPrice(330f)})
                         )
                     )
                 }
@@ -200,7 +202,7 @@ fun MainScreen(
                     )
 
                     // Debug stocks:
-                    /*Column(
+                    Column(
                         horizontalAlignment = Alignment.End,
                         verticalArrangement = Arrangement.Center,
                         modifier = Modifier.padding(end = 12.dp)
@@ -212,7 +214,7 @@ fun MainScreen(
                         ) {
                             Text("STOCKS")
                         }
-                    }*/
+                    }
                 }
             }
         }

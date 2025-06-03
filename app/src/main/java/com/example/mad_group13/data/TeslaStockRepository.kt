@@ -21,14 +21,18 @@ class TeslaStockRepository @Inject constructor(
 
     suspend fun fetchAndApplyHappinessChange(context: Context) {
         try {
-            val response = RetrofitInstance.api.getTeslaQuote(apiKey = "9ODY479B9EZMO0V6")
-            val price = response.globalQuote.price.toFloatOrNull()
+            //val response = RetrofitInstance.api.getTeslaQuote(apiKey = "9ODY479B9EZMO0V6")
+            //val price = response.globalQuote.price.toFloatOrNull()
+            val price = 460f
             if (price != null) {
                 val yesterdayPrice = teslaStockDao.getTeslaStock()?.lastPrice
                 if (yesterdayPrice != null && yesterdayPrice > 0f) {
                     val percentageChange = ((price - yesterdayPrice) / yesterdayPrice) * 100f
 
                     Log.i("TeslaStockRepo", "Price change: $percentageChange%")
+                    Log.i("TeslaRepo", "Start fetching Tesla price")
+                    Log.i("TeslaRepo", "Fetched price: $price, Last price: $yesterdayPrice")
+
 
                     val pet = petRepository.getActivePet()
                     val updatedPet = if (percentageChange > 0) {
@@ -38,6 +42,9 @@ class TeslaStockRepository @Inject constructor(
                     }
                     teslaStockDao.insertOrUpdateTeslaStock(TeslaStock(id = 1, lastPrice = price, lastUpdated = System.currentTimeMillis()))
                     petRepository.updatePet(updatedPet)
+                    Log.i("TeslaStockRepo", "Updated happiness from ${pet.happiness} to ${updatedPet.happiness}")
+                } else {
+                    Log.w("TeslaRepo", "No previous price stored → skipping happiness update")
                 }
                 lastTeslaPrice = price
             }
