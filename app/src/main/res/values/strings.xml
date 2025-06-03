@@ -16,6 +16,7 @@
     <string name="label_minigames">Minigames</string>
     <string name="button_retire">Retire Pet</string>
     <string name="reaction_start_message">Press Start to begin!</string>
+    <string name="reaction_lights_countdown">Get ready... Lights are coming!</string>
     <string name="reaction_wait_green">Wait for green...</string>
     <string name="reaction_tap_now">Tap now!</string>
     <string name="reaction_start_button">Start Game</string>

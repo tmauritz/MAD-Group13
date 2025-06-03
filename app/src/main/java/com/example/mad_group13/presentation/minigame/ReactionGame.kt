@@ -22,23 +22,28 @@ fun ReactionGame(
     onLoss: () -> Unit
 ) {
     val context = LocalContext.current
-    var boxColor by remember { mutableStateOf(Color.Red) }
     var gameStarted by remember { mutableStateOf(false) }
+    var gameFinished by remember { mutableStateOf(false) }
     var readyToTap by remember { mutableStateOf(false) }
+    var lastResultWasWin by remember { mutableStateOf(false) }
     var message by remember { mutableStateOf(context.getString(R.string.reaction_start_message)) }
     var startTime by remember { mutableStateOf(0L) }
-    var startTimer by remember { mutableStateOf(false) }
-    var gameFinished by remember { mutableStateOf(false) }
-    var lastResultWasWin by remember { mutableStateOf(false) }
+    var lightStates by remember { mutableStateOf(List(5) { Color.Gray }) }
 
-    LaunchedEffect(startTimer) {
-        if (startTimer) {
+    LaunchedEffect(gameStarted) {
+        if (gameStarted) {
+            message = context.getString(R.string.reaction_lights_countdown)
+            // painting red one after another
+            for (i in 0 until 5) {
+                delay(500)
+                lightStates = lightStates.toMutableList().also { it[i] = Color.Red }
+            }
+            // After short delay --> green
             delay(3000)
-            boxColor = Color.Green
-            readyToTap = true
+            lightStates = List(5) { Color.Green }
             message = context.getString(R.string.reaction_tap_now)
+            readyToTap = true
             startTime = System.currentTimeMillis()
-            startTimer = false
         }
     }
 
@@ -55,16 +60,33 @@ fun ReactionGame(
             verticalArrangement = Arrangement.Center
         ) {
             Text(text = message)
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row(
+                modifier = Modifier.padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                lightStates.forEach { color ->
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(4.dp)
+                            .background(color)
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 
             if (gameFinished) {
                 Button(onClick = {
                     if (lastResultWasWin) onWin() else onLoss()
-                    // Reset game state
+                    // Reset
                     gameStarted = false
                     gameFinished = false
+                    lightStates = List(5) { Color.Gray }
                     message = context.getString(R.string.reaction_start_message)
+                    readyToTap = false
                 }) {
                     Text(stringResource(R.string.reaction_close_button))
                 }
@@ -72,10 +94,6 @@ fun ReactionGame(
                 if (!gameStarted) {
                     Button(onClick = {
                         gameStarted = true
-                        message = context.getString(R.string.reaction_wait_green)
-                        boxColor = Color.Red
-                        readyToTap = false
-                        startTimer = true
                     }) {
                         Text(stringResource(R.string.reaction_start_button))
                     }
@@ -83,12 +101,11 @@ fun ReactionGame(
                     Box(
                         modifier = Modifier
                             .size(200.dp)
-                            .background(boxColor)
+                            .background(Color.LightGray)
                             .clickable {
                                 if (!readyToTap) {
                                     message = context.getString(R.string.reaction_too_early)
                                     lastResultWasWin = false
-                                    gameFinished = true
                                 } else {
                                     val reactionTime = System.currentTimeMillis() - startTime
                                     val seconds = reactionTime / 1000f
@@ -106,8 +123,8 @@ fun ReactionGame(
                                             lastResultWasWin = false
                                         }
                                     }
-                                    gameFinished = true
                                 }
+                                gameFinished = true
                             }
                     )
                 }
