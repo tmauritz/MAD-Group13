@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/health_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Health: --%" />
+
+    <TextView
+        android:id="@+id/hunger_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hunger: --%" />
+
+    <TextView
+        android:id="@+id/happiness_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Happiness: --%" />
+
+    <TextView
+        android:id="@+id/activity_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity: --%" />
+</LinearLayout>

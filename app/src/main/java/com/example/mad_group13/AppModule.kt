@@ -39,8 +39,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePetRepository(petDao: PetDao): PetRepository {
-        return PetRepository(petDao)
+    fun providePetRepository(@ApplicationContext context: Context, petDao: PetDao): PetRepository {
+        return PetRepository(petDao, context)
     }
 
     @Provides
