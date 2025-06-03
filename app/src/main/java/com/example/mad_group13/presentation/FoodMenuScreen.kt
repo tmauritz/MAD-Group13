@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.mad_group13.R
+import com.example.mad_group13.logic.nutrition.Food
 import com.example.mad_group13.logic.nutrition.FoodSnackMenuItems
 import com.example.mad_group13.logic.nutrition.Snack
 import com.example.mad_group13.presentation.viewModel.PetStateViewModel
@@ -51,12 +53,12 @@ fun FoodMenuScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(stringResource(R.string.label_menu), modifier = Modifier.padding(bottom = 8.dp))
-            LazyColumn { items(foodItems){food -> OutlinedButton(onClick = {
-                when (food) {
-                    is Snack -> petStateViewModel.feedPet(food)
-                    else -> petStateViewModel.feedPet(food)
-                }
-            }, modifier = Modifier.fillMaxWidth()
+
+            val snackChoices = foodItems.filterIsInstance<Snack>()
+            val foodChoices = foodItems.filter { !snackChoices.contains(it) }
+            LazyColumn { items(foodChoices){food -> OutlinedButton(
+                onClick = {petStateViewModel.feedPet(food)},
+                modifier = Modifier.fillMaxWidth()
                 ) {
                 Text(
                     "${food.name} (${
@@ -68,8 +70,26 @@ fun FoodMenuScreen(
                 )
             }
             }
+            }
+            HorizontalDivider()
+            Text(stringResource(R.string.label_Snacks), modifier = Modifier.padding(bottom = 8.dp))
+            LazyColumn { items(snackChoices){snack -> OutlinedButton(
+                onClick = {petStateViewModel.feedPet(snack)},
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    "${snack.name} (${
+                        stringResource(
+                            R.string.label_food_hunger,
+                            (snack.nutritionValue * 100).toInt()
+                        )
+                    })"
+                )
+            }
+            }
 
             }
+
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = modifier.fillMaxWidth()
