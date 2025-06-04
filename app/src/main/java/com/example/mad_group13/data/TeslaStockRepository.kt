@@ -21,9 +21,9 @@ class TeslaStockRepository @Inject constructor(
 
     suspend fun fetchAndApplyHappinessChange(context: Context) {
         try {
-            //val response = RetrofitInstance.api.getTeslaQuote(apiKey = "9ODY479B9EZMO0V6")
-            //val price = response.globalQuote.price.toFloatOrNull()
-            val price = 460f
+            val response = RetrofitInstance.api.getTeslaQuote(apiKey = "9ODY479B9EZMO0V6")
+            val price = response.globalQuote.price.toFloatOrNull()
+            //val price = 460f
             if (price != null) {
                 val yesterdayPrice = teslaStockDao.getTeslaStock()?.lastPrice
                 if (yesterdayPrice != null && yesterdayPrice > 0f) {
