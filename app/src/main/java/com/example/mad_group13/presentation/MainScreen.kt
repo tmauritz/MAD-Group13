@@ -108,7 +108,11 @@ fun MainScreen(
                             MainMenuItem("DEMO - MedicineTrials",{petStateViewModel.setSickness(true)}),
                             MainMenuItem("DEMO - TeslaAlarm Check",{stockViewModel.applyFakePrice(360f)}),
                             MainMenuItem("DEMO - Tesla Fake Price",{stockViewModel.setFakeTeslaPrice(330f)}),
-                            MainMenuItem("DEMO - Hunger to 0",{petStateViewModel.setHungerToZero()})
+                            MainMenuItem("DEMO - Hunger to 0",{petStateViewModel.setHungerToZero()}),
+                            MainMenuItem("TSLA: $teslaPrice", {}),
+                            MainMenuItem("STOCKS (manuell abrufen)", {
+                                stockViewModel.fetchTeslaStock()
+                            })
                         )
                     )
                 }
@@ -204,23 +208,6 @@ fun MainScreen(
                                 showMinigameSelection = true
                             }
                     )
-
-                    // Debug stocks:
-                    /*
-                    Column(
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(end = 12.dp)
-                    ) {
-                        Text(text = "TSLA: $teslaPrice")
-                        Button(
-                            onClick = { stockViewModel.fetchTeslaStock() },
-                            modifier = Modifier.padding(top = 4.dp)
-                        ) {
-                            Text("STOCKS")
-                        }
-                    }
-                    */
                 }
             }
         }
