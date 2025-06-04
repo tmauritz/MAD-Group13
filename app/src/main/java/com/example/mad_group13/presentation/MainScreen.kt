@@ -93,6 +93,7 @@ fun MainScreen(
     var showRetireDialog by remember { mutableStateOf(false) }
     var showMinigameSelection by remember { mutableStateOf(false) }
     var showSicknessDialog by remember { mutableStateOf(false) }
+    var petHealed by remember{ mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -181,6 +182,8 @@ fun MainScreen(
                             .width(70.dp)
                             .clickable {
                                 showSicknessDialog = true
+                                if (petStateViewModel.petState.value.sickness) petHealed = true
+                                petStateViewModel.setSickness(false)
                             }
                     )
                     Image(
@@ -203,6 +206,7 @@ fun MainScreen(
                     )
 
                     // Debug stocks:
+                    /*
                     Column(
                         horizontalAlignment = Alignment.End,
                         verticalArrangement = Arrangement.Center,
@@ -216,6 +220,7 @@ fun MainScreen(
                             Text("STOCKS")
                         }
                     }
+                    */
                 }
             }
         }
@@ -296,11 +301,14 @@ fun MainScreen(
         }
 
         if (showSicknessDialog) {
+            Log.i("MAD_MainScreen_sickness", activePet.sickness.toString())
             SicknessDialog(
-                activePet.sickness,
-                onDismiss = { showSicknessDialog = false }
+                petHealed,
+                onDismiss = {
+                    showSicknessDialog = false
+                    petHealed = false
+                }
                 )
-            petStateViewModel.setSickness(false)
         }
 
         if (showNicknameDialog) {
