@@ -22,7 +22,7 @@ class TeslaAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         CoroutineScope(Dispatchers.IO).launch {
             Log.i("TeslaAlarmReceiver", "Running daily Tesla check")
-            teslaStockRepository.fetchAndApplyHappinessChange(context)
+            teslaStockRepository.fetchAndSaveTeslaPriceOnly()
         }
     }
 }

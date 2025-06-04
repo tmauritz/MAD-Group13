@@ -65,6 +65,7 @@ fun MainScreen(
 ) {
 
     LaunchedEffect(Unit) {
+        stockViewModel.fetchTeslaStock()
         stockViewModel.onTeslaPriceChanged = { percentageChange ->
             if (percentageChange > 0) {
                 petStateViewModel.reduceHappinessBy(percentageChange / 100f)
