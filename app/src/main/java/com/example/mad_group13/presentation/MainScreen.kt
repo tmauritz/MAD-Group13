@@ -106,7 +106,8 @@ fun MainScreen(
                             MainMenuItem("DEMO - destroyActivity", {petStateViewModel.destroyActivity()}),
                             MainMenuItem("DEMO - MedicineTrials",{petStateViewModel.setSickness(true)}),
                             MainMenuItem("DEMO - TeslaAlarm Check",{stockViewModel.applyFakePrice(360f)}),
-                            MainMenuItem("DEMO - Tesla Fake Price",{stockViewModel.setFakeTeslaPrice(330f)})
+                            MainMenuItem("DEMO - Tesla Fake Price",{stockViewModel.setFakeTeslaPrice(330f)}),
+                            MainMenuItem("DEMO - Hunger to 0",{petStateViewModel.setHungerToZero()})
                         )
                     )
                 }

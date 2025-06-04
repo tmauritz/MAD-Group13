@@ -110,7 +110,7 @@ fun ReactionGame(
                                     val reactionTime = System.currentTimeMillis() - startTime
                                     val seconds = reactionTime / 1000f
                                     when {
-                                        seconds < 0.01f -> {
+                                        seconds < 0.01f -> { //Is there that the player is not predicting, when the lights turn off, if should be REACTION
                                             message = context.getString(R.string.reaction_too_fast)
                                             lastResultWasWin = false
                                         }

@@ -112,11 +112,10 @@ class PetStateViewModel @Inject constructor(
         }
     }
 
-    //for Debuging: should be deleted before project completion
-    fun reduceHungerBy(amount: Float) {
+    // for Debugging
+    fun setHungerToZero() {
         _petState.update { pet ->
-            val newHunger = (pet.hunger - amount).coerceAtLeast(0f)
-            pet.copy(hunger = newHunger)
+            pet.copy(hunger = 0f)
         }
     }
 
