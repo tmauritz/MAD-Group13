@@ -20,7 +20,7 @@ fun Navigation(modifier: Modifier = Modifier) {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.StartScreen.route // TODO: !!change to StartScreen later!!
+        startDestination = Screen.StartScreen.route
     ) {
         composable(route = Screen.StartScreen.route) {
             StartScreen(

@@ -26,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge() //TODO: figure out if we want this or not
 
         AlarmScheduler.scheduleDailyTeslaCheck(this)
 

@@ -34,7 +34,6 @@ fun CurrentStatScreen(onBackToMain: ()-> Unit, modifier: Modifier = Modifier){
         "Hunger" to 0.7f,
         "Activity" to 0.4f,
     )
-    //TODO: create Pet data structure
 
     Scaffold(
         topBar = {

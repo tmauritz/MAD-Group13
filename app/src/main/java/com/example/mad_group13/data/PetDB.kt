@@ -22,7 +22,7 @@ abstract class PetDB: RoomDatabase(){
             return instance
                 ?: synchronized(this) { // wrap in synchronized block to prevent race conditions
                     Room.databaseBuilder(context, PetDB::class.java, "MAD_DB")
-                        .fallbackToDestructiveMigration() // if schema changes wipe the whole db - TODO: there are better migration strategies for production usage
+                        .fallbackToDestructiveMigration() // if schema changes wipe the whole db
                         .build() // create an instance of the db
                         .also {
                             instance = it // override the instance with newly created db

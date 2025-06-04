@@ -8,7 +8,6 @@ import com.example.mad_group13.R
 import com.example.mad_group13.data.Pet
 import com.example.mad_group13.data.PetMaturity
 import com.example.mad_group13.data.PetRepository
-import com.example.mad_group13.data.TeslaStockRepository
 import com.example.mad_group13.logic.Constants
 import com.example.mad_group13.logic.nutrition.Food
 import com.example.mad_group13.logic.nutrition.Snack

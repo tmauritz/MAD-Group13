@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import com.example.mad_group13.data.TeslaStockRepository
 import com.example.mad_group13.model.RetrofitInstance
 import dagger.hilt.android.AndroidEntryPoint

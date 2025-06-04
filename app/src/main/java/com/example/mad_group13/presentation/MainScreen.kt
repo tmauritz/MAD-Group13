@@ -89,7 +89,6 @@ fun MainScreen(
 
     var showNicknameDialog by remember { mutableStateOf(false) }
     var showFoodMenu by remember { mutableStateOf(false) }
-    var isFeeding by remember { mutableStateOf(false) }
     var activeMinigame by remember { mutableStateOf(MinigameSelector.NONE) }
     var showRetireDialog by remember { mutableStateOf(false) }
     var showMinigameSelection by remember { mutableStateOf(false) }
@@ -323,13 +322,6 @@ fun MainScreen(
             }
         }
 
-        if (isFeeding) {
-            LaunchedEffect(Unit) {
-                // TODO: changing it later with the animation or real logic
-                delay(2000)
-                isFeeding = false
-            }
-        }
 
         if (petStateViewModel.deathCondition()) {
             DeadPetDialog(
